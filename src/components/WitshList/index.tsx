@@ -4,12 +4,13 @@ import { Box, Stack } from "@mui/material";
 
 import { DropResult } from "@hello-pangea/dnd";
 import { DndContext, Draggable, Droppable } from "~/components/DragAndDrop";
+import { COLORS } from "~/theme";
 import { Avatar } from "../Avatar";
 import { EditableRowElement, ViewableRowElement } from "../WishRowElement";
 import { WishType, wishList } from "./items";
 
 export function WishList({ isPublic = false }: { isPublic?: boolean }) {
-  const shuffledColors = shuffleArray(colors);
+  const shuffledColors = shuffleArray(Object.values(COLORS));
 
   const [state, setState] = React.useState(() =>
     wishList.map((wish, index) => ({
@@ -66,7 +67,7 @@ export function WishList({ isPublic = false }: { isPublic?: boolean }) {
                 id={whish.id.toString()}
                 index={index}
               >
-                {isPublic ? (
+                {!isPublic ? (
                   <ViewableRowElement
                     wish={whish as WishType}
                     handleToggle={toogleAvailable}
@@ -87,19 +88,11 @@ export function WishList({ isPublic = false }: { isPublic?: boolean }) {
   );
 }
 
-const colors = [
-  "#b2e1bb",
-  "#16be35",
-  "#6c90d5",
-  "#c3acf3",
-  "#d9e952",
-  "#d795be"
-];
-
 function shuffleArray(array: string[]) {
-  const shuffledArray = [...array]
+  const shuffledArray = [...array];
   for (let i = shuffledArray.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
+
     [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
   }
   return shuffledArray;

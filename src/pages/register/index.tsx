@@ -1,4 +1,3 @@
-import { signIn } from "next-auth/react";
 import React from "react";
 
 import {
@@ -15,41 +14,49 @@ import {
     Typography
 } from "@mui/material";
 
+import { COLORS } from "~/components/Appbar/common";
+
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { useRouter } from "next/navigation";
-import { COLORS } from "~/theme";
+import { signIn } from "next-auth/react";
 
-export default function Login() {
+export default function Register() {
+  const [loading, setLoading] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const router = useRouter();
 
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const email = data.get("email");
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    const data = new FormData(e.currentTarget);
+    const email = data.get("mail");
     const password = data.get("password");
-    if (!email || !password) return;
 
-    const res = await signIn("credentials", {
-      email,
-      password,
-      redirect: false
-    });
+    try {
+      const res = await fetch("/api/register", {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
 
-    if (!res?.error) return router.push("/profile");
+      setLoading(false);
+      if (!res.ok) {
+        alert((await res.json()).message);
+        return;
+      }
+
+      signIn(undefined, { callbackUrl: "/profile" });
+    } catch (error: any) {
+      setLoading(false);
+      alert(error.message);
+    }
   };
 
   return (
     <Container sx={{ margin: "auto" }} maxWidth="sm">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={onSubmit}>
         <Card
           variant="outlined"
           sx={{
@@ -57,7 +64,7 @@ export default function Login() {
             my: 2,
             minHeight: "max-content",
             border: "2px solid",
-            boxShadow: `20px 20px ${COLORS.secondaryOrange}, 20px 20px 0px 2px #171d21`
+            boxShadow: `20px 20px ${COLORS.secondaryPink}, 20px 20px 0px 2px #171d21`
           }}
         >
           <CardContent>
@@ -73,20 +80,19 @@ export default function Login() {
                 component="h1"
                 sx={{ textTransform: "uppercase", fontWeight: "bold" }}
               >
-                Nice to see you again 😎
+                Welcome to yume 🥳
               </Typography>
               <Typography variant="body1">
-                Useful & meaninfull gifts without sweat
+                Useful & meaningful gifts without sweat
               </Typography>
             </Box>
             <Stack spacing={3}>
               <TextField
                 fullWidth
                 required
-                variant="outlined"
                 label="Email"
-                type="email"
-                name="email"
+                variant="outlined"
+                name="mail"
               />
               <TextField
                 fullWidth
@@ -101,7 +107,6 @@ export default function Login() {
                       <IconButton
                         aria-label="toggle password visibility"
                         onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
                         edge="end"
                       >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -110,36 +115,25 @@ export default function Login() {
                   )
                 }}
               />
-              <Stack spacing={1}>
-                <Typography variant="body1">
-                  Already a user?{" "}
-                  <Link
-                    href="/register"
-                    sx={{ color: COLORS.greenAction, fontWeight: "bold" }}
-                  >
-                    Signup here
-                  </Link>
-                </Typography>
-                <Typography variant="body1">
-                  Forgot password?{" "}
-                  <Link
-                    href="/forgot"
-                    sx={{ color: COLORS.greenAction, fontWeight: "bold" }}
-                  >
-                    Reset it here
-                  </Link>
-                </Typography>
-              </Stack>
+              <Typography variant="body1">
+                Already a user?{" "}
+                <Link
+                  href="/login"
+                  sx={{ color: COLORS.greenAction, fontWeight: "bold" }}
+                >
+                  Login here
+                </Link>
+              </Typography>
             </Stack>
             <Box display="flex" justifyContent="center">
               <Button
                 disableElevation
-                type="submit"
                 variant="contained"
                 color="primary"
+                type="submit"
                 sx={{ mt: 4, px: 4 }}
               >
-                Login
+                {loading ? "...loading" : "Create an account"}
               </Button>
             </Box>
           </CardContent>
@@ -149,6 +143,6 @@ export default function Login() {
   );
 }
 
-Login.defaultProps = {
+Register.defaultProps = {
   hideBar: true
 };
