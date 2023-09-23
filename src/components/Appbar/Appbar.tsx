@@ -1,5 +1,6 @@
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import { AppBar, Box, Button, Container, IconButton } from "@mui/material";
+import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { AddNewWish } from "../AddNewWish";
 import {
@@ -10,7 +11,8 @@ import {
 } from "./common";
 
 export const Privatebar = () => {
-  const previewMode = !usePathname().includes("/profile");
+  const previewMode = !usePathname()?.includes("/profile");
+  const user = useSession()?.data?.user;
 
   return (
     <AppBar
@@ -26,7 +28,10 @@ export const Privatebar = () => {
               Edit
             </Button>
           ) : (
-            <Button href="/" {...editConnectStyle(COLORS.secondaryViolet)}>
+            <Button
+              href={`/${user?.username}`}
+              {...editConnectStyle(COLORS.secondaryViolet)}
+            >
               Preview
             </Button>
           )}

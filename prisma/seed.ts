@@ -10,10 +10,12 @@ async function main() {
     update: {},
     create: {
       email: "admin@admin.com",
+      username: "admin",
       name: "Admin",
       password
     }
   });
+
   console.log({ user });
 }
 main()

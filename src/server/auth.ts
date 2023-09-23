@@ -21,6 +21,7 @@ declare module "next-auth" {
     user: DefaultSession["user"] & {
       id: string;
       bio: string;
+      username: string;
     };
   }
 }
@@ -70,7 +71,8 @@ export const authOptions: NextAuthOptions = {
           id: user.id,
           email: user.email,
           name: user.name,
-          bio: user.bio
+          bio: user.bio,
+          username: user.username
         };
       }
     })
@@ -82,7 +84,8 @@ export const authOptions: NextAuthOptions = {
         user: {
           ...session.user,
           id: token.id,
-          bio: token.bio
+          bio: token.bio,
+          username: token.username
         }
       };
     },
@@ -92,7 +95,8 @@ export const authOptions: NextAuthOptions = {
         return {
           ...token,
           id: u.id,
-          bio: u.bio
+          bio: u.bio,
+          username: u.username
         };
       }
       return token;

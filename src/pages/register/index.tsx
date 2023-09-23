@@ -1,17 +1,17 @@
 import React from "react";
 
 import {
-    Box,
-    Button,
-    Card,
-    CardContent,
-    Container,
-    IconButton,
-    InputAdornment,
-    Link,
-    Stack,
-    TextField,
-    Typography
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Container,
+  IconButton,
+  InputAdornment,
+  Link,
+  Stack,
+  TextField,
+  Typography
 } from "@mui/material";
 
 import { COLORS } from "~/components/Appbar/common";
@@ -19,6 +19,7 @@ import { COLORS } from "~/components/Appbar/common";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { signIn } from "next-auth/react";
+import { api } from "~/utils/api";
 
 export default function Register() {
   const [loading, setLoading] = React.useState(false);
@@ -33,17 +34,13 @@ export default function Register() {
     const password = data.get("password");
 
     try {
-      const res = await fetch("/api/register", {
-        method: "POST",
-        body: JSON.stringify({ email, password }),
-        headers: {
-          "Content-Type": "application/json"
-        }
+      const { error } = api.users.signup.useMutation({
+        email: email as string,
+        password: password as string
       });
 
-      setLoading(false);
-      if (!res.ok) {
-        alert((await res.json()).message);
+      if (error) {
+        alert(error.message);
         return;
       }
 

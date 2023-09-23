@@ -3,7 +3,7 @@ import { z } from "zod";
 import {
   createTRPCRouter,
   protectedProcedure,
-  publicProcedure,
+  publicProcedure
 } from "~/server/api/trpc";
 
 export const exampleRouter = createTRPCRouter({
@@ -11,15 +11,15 @@ export const exampleRouter = createTRPCRouter({
     .input(z.object({ text: z.string() }))
     .query(({ input }) => {
       return {
-        greeting: `Hello ${input.text}`,
+        greeting: `Hello ${input.text}`
       };
     }),
 
   getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.db.example.findMany();
+    return ctx.db.user.findMany();
   }),
 
   getSecretMessage: protectedProcedure.query(() => {
     return "you can now see this secret message!";
-  }),
+  })
 });

@@ -1,5 +1,3 @@
-
-
 import { Button } from "@mui/material";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
@@ -22,8 +20,8 @@ export const RegisterButton = () => {
 };
 
 export const LogoutButton = () => {
-  const isSignedIn = useSession().status === "authenticated";
-  const isProfilePage = usePathname().includes("profile");
+  const isSignedIn = useSession()?.status === "authenticated";
+  const isProfilePage = usePathname()?.includes("profile");
 
   return (
     isSignedIn &&

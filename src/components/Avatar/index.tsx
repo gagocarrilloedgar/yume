@@ -8,11 +8,19 @@ import {
 import { User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import { api } from "~/utils/api";
 import { EditableAvatar } from "./Editable";
 
 export const Avatar = () => {
   const path = usePathname();
   const session = useSession();
+
+  const { data, isLoading } = api.users.findOne.useQuery(
+    {
+      id: session?.data?.user?.id as string
+    },
+    { enabled: session?.data?.user !== undefined }
+  );
 
   const isPrivate =
     session.status === "authenticated" && path.includes("/profile");
@@ -41,13 +49,14 @@ export const Avatar = () => {
     avatarStylesSmall.marginBottom = "2rem";
   }
 
-  if (session.status === "loading")
+  if (!data || isLoading || session.status === "loading")
     return (
       <Box alignItems="center" display="flex" flexDirection="column">
         <CircularProgress size="5rem" />
       </Box>
     );
-  const user = session.data?.user as User;
+
+  const user = data as User;
 
   if (isPrivate && user) return <EditableAvatar user={user} />;
 
@@ -64,7 +73,7 @@ export const Avatar = () => {
       <Typography variant="h5" fontWeight="bold">
         {user?.name}
       </Typography>
-      <Typography variant="body1">{user?.bio}</Typography>
+      <Typography variant="body1">{user?.bio ?? ""}</Typography>
     </Box>
   );
 };

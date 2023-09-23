@@ -11,6 +11,7 @@ import {
 import { User } from "@prisma/client";
 import React from "react";
 import { COLORS } from "~/theme";
+import { api } from "~/utils/api";
 
 export const EditableAvatar = ({ user }: { user: User }) => {
   const [state, setState] = React.useState({
@@ -18,6 +19,8 @@ export const EditableAvatar = ({ user }: { user: User }) => {
     changes: false,
     loading: false
   });
+
+  const updateUser = api.users.update.useMutation();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -43,19 +46,25 @@ export const EditableAvatar = ({ user }: { user: User }) => {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/users", {
-        method: "PATCH",
-        body: JSON.stringify({ ...state.user }),
-        headers: {
-          "Content-Type": "application/json"
+      await updateUser.mutateAsync(
+        {
+          id: user.id,
+          ...(state.user as any)
+        },
+        {
+          onError: (error) => {
+            alert(error.message);
+          },
+          onSuccess: () => {
+            setState((prev) => ({
+              ...prev,
+              changes: false
+            }));
+          }
         }
-      });
+      );
 
       setLoading(false);
-      if (!res.ok) {
-        alert((await res.json()).message);
-        return;
-      }
     } catch (error: any) {
       setLoading(false);
       alert(error.message);
@@ -113,7 +122,7 @@ export const EditableAvatar = ({ user }: { user: User }) => {
             variant="outlined"
             name="bio"
             rows={3}
-            value={state.user.bio}
+            value={state.user.bio ?? ""}
             onChange={handleChange}
           />
         </Stack>
