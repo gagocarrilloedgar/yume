@@ -33,17 +33,24 @@ export default function Register() {
     const email = data.get("mail");
     const password = data.get("password");
 
+    const signUp = api.users.signup.useMutation();
+
     try {
-      const { error } = api.users.signup.useMutation({
-        email: email as string,
-        password: password as string
-      });
-
-      if (error) {
-        alert(error.message);
-        return;
-      }
-
+      await signUp.mutateAsync(
+        {
+          email: email as string,
+          password: password as string
+        },
+        {
+          onError: (error) => {
+            alert(error.message);
+            setLoading(false);
+          },
+          onSuccess: () => {
+            setLoading(false);
+          }
+        }
+      );
       signIn(undefined, { callbackUrl: "/profile" });
     } catch (error: any) {
       setLoading(false);

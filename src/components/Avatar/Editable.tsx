@@ -14,7 +14,11 @@ import { COLORS } from "~/theme";
 import { api } from "~/utils/api";
 
 export const EditableAvatar = ({ user }: { user: User }) => {
-  const [state, setState] = React.useState({
+  const [state, setState] = React.useState<{
+    user: User;
+    changes: boolean;
+    loading: boolean;
+  }>({
     user,
     changes: false,
     loading: false
@@ -48,8 +52,7 @@ export const EditableAvatar = ({ user }: { user: User }) => {
     try {
       await updateUser.mutateAsync(
         {
-          id: user.id,
-          ...(state.user as any)
+          ...state.user
         },
         {
           onError: (error) => {

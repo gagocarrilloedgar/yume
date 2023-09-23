@@ -5,7 +5,6 @@ import {
   Typography,
   useMediaQuery
 } from "@mui/material";
-import { User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { api } from "~/utils/api";
@@ -15,7 +14,7 @@ export const Avatar = () => {
   const path = usePathname();
   const session = useSession();
 
-  const { data, isLoading } = api.users.findOne.useQuery(
+  const { data: user, isLoading } = api.users.findOne.useQuery(
     {
       id: session?.data?.user?.id as string
     },
@@ -23,7 +22,7 @@ export const Avatar = () => {
   );
 
   const isPrivate =
-    session.status === "authenticated" && path.includes("/profile");
+    session.status === "authenticated" && path?.includes("/profile");
 
   // Define responsive styles
   const avatarStylesSmall = {
@@ -49,14 +48,12 @@ export const Avatar = () => {
     avatarStylesSmall.marginBottom = "2rem";
   }
 
-  if (!data || isLoading || session.status === "loading")
+  if (!user || isLoading || session.status === "loading")
     return (
       <Box alignItems="center" display="flex" flexDirection="column">
         <CircularProgress size="5rem" />
       </Box>
     );
-
-  const user = data as User;
 
   if (isPrivate && user) return <EditableAvatar user={user} />;
 

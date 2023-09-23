@@ -20,6 +20,13 @@ const userSchema = z.object({
   bio: z.string().optional()
 });
 
+const profileSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string().nullable(),
+  email: z.string().email().nullable(),
+  bio: z.string().nullable()
+});
+
 export const userRouter = createTRPCRouter({
   findOne: publicProcedure
     .input(z.object({ id: z.string() }))
@@ -54,7 +61,7 @@ export const userRouter = createTRPCRouter({
       });
     }),
   update: protectedProcedure
-    .input(z.object({ ...userSchema.shape }))
+    .input(z.object({ ...profileSchema.shape }))
     .mutation(({ input, ctx }) => {
       console.log(input);
       const { id, ...data } = input;
