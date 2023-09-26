@@ -1,8 +1,8 @@
 import { z } from "zod";
 import {
-    createTRPCRouter,
-    protectedProcedure,
-    publicProcedure
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure
 } from "~/server/api/trpc";
 import { handleDatabaseOperation } from "~/utils/api";
 
@@ -13,7 +13,7 @@ const wishSchema = z.object({
   position: z.number().int(),
   active: z.boolean(),
   available: z.boolean(),
-  senderId: z.string().optional(),
+  senderId: z.string().optional().nullable(),
   receiverId: z.string().uuid()
 });
 
@@ -37,9 +37,11 @@ export const wishRouter = createTRPCRouter({
 
   create: protectedProcedure
     .input(
-      z.object({ ...wishSchema.shape }).refine((data) => data.receiverId, {
-        message: "The receiverId must be provided"
-      })
+      z
+        .object({ ...wishSchema.omit({ id: true }).shape })
+        .refine((data) => data.receiverId, {
+          message: "The receiverId must be provided"
+        })
     )
     .mutation(({ input, ctx }) =>
       handleDatabaseOperation(

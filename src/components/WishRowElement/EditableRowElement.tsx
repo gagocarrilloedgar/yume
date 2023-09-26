@@ -33,7 +33,7 @@ export const EditableRowElement = ({
     >
       <Box sx={{ p: 1 }} display="flex" alignItems="center">
         <DragIndicatorOutlinedIcon fontSize="medium" sx={{ mr: 2 }} />
-        <Box width="100%">
+        <Box width="85%">
           <EditLabel label={wish.title} onChange={onChangeTitle} name="title" />
           <EditLabel label={wish.url} onChange={onChangeUrl} name="url" />
         </Box>

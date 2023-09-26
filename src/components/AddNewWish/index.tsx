@@ -17,12 +17,16 @@ import DialogContent from "@mui/material/DialogContent";
 import { User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import * as React from "react";
+import { Wish } from "~/domain/wishes";
+import { api } from "~/utils/api";
 import { compact } from "~/utils/compact";
 import { Toogle } from "../Switch";
 
 export function AddNewWish({ position = 0 }: { position?: number }) {
   const [open, setOpen] = React.useState(false);
   const session = useSession();
+
+  console.log({ position });
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -31,6 +35,8 @@ export function AddNewWish({ position = 0 }: { position?: number }) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const addWish = api.wishes.create.useMutation();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -48,19 +54,18 @@ export function AddNewWish({ position = 0 }: { position?: number }) {
       available: json.available === "on",
       receiverId: user.id,
       position
-    };
+    } as Omit<Wish, "id">;
 
-    await fetch("/api/wishes", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(body)
-    });
-
-    setOpen(false);
-
-    if (!compacted) return;
+    await addWish.mutateAsync(
+      { ...body },
+      {
+        onSuccess: () => setOpen(false),
+        onError: () => {
+          setOpen(false);
+          alert("Something went wrong, please try again");
+        }
+      }
+    );
   };
 
   return (

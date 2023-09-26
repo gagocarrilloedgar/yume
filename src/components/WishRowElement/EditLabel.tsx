@@ -25,7 +25,18 @@ export const EditLabel = ({
           size="small"
         />
       ) : (
-        <Typography>{label}</Typography>
+        <Typography
+          style={{
+            // Prevent overflow
+            overflow: "hidden",
+            // Show ellipsis for overflowing text
+            textOverflow: "ellipsis",
+            // Prevent text from wrapping to the next line
+            whiteSpace: "nowrap"
+          }}
+        >
+          {label}
+        </Typography>
       )}
       <IconButton
         onClick={() => setIsEditing((prev) => !prev)}
