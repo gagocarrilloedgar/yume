@@ -18,15 +18,15 @@ import { User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import * as React from "react";
 import { Wish } from "~/domain/wishes";
+import { useUser } from "~/pages/profile";
 import { api } from "~/utils/api";
-import { compact } from "~/utils/compact";
 import { Toogle } from "../Switch";
 
 export function AddNewWish({ position = 0 }: { position?: number }) {
   const [open, setOpen] = React.useState(false);
   const session = useSession();
 
-  console.log({ position });
+  const { wishes, handleChange } = useUser();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -44,7 +44,6 @@ export function AddNewWish({ position = 0 }: { position?: number }) {
     if (!user) return;
 
     const data = new FormData(event.currentTarget);
-    const compacted = compact(data);
 
     // Get json from form data
     const json = Object.fromEntries(data.entries());
@@ -59,7 +58,12 @@ export function AddNewWish({ position = 0 }: { position?: number }) {
     await addWish.mutateAsync(
       { ...body },
       {
-        onSuccess: () => setOpen(false),
+        onSuccess: (data) => {
+          handleChange({
+            wishes: wishes ? [...wishes, data as Wish] : [data as Wish]
+          });
+          setOpen(false);
+        },
         onError: () => {
           setOpen(false);
           alert("Something went wrong, please try again");
