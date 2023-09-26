@@ -7,13 +7,9 @@ import { api } from "~/utils/api";
 
 export default function ProfilePage() {
   const { data: session } = useSession();
-  const { wishes, setState } = useUser();
+  const { setState } = useUser();
 
-  const {
-    data: user,
-    isLoading,
-    isError
-  } = api.users.findOne.useQuery(
+  const { data, isLoading, isError } = api.users.findOne.useQuery(
     {
       id: session?.user?.id as string
     },
@@ -21,21 +17,23 @@ export default function ProfilePage() {
   );
 
   React.useEffect(() => {
-    if (user && !isLoading)
+    if (data && !isLoading) {
+      const { wishes, ...user } = data;
       setState({
         user,
         isLoading,
         isError,
-        wishes: mapWishesToUI(user.wishes as Wish[])
+        wishes: mapWishesToUI(wishes as Wish[])
       });
-  }, [user, isLoading, isError]);
+    }
+  }, [data, isLoading, isError]);
 
-  if ((!isLoading && !user) || (!user && isError))
+  if ((!isLoading && !data) || (!data && isError))
     return <div>User not found</div>;
 
-  if (!user || isLoading) return <div>Loading...</div>;
+  if (!data || isLoading) return <div>Loading...</div>;
 
-  return <WishList user={user} wishes={wishes} />;
+  return <WishList />;
 }
 
 interface Profile {

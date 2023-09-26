@@ -2,22 +2,13 @@ import { Box, Stack } from "@mui/material";
 
 import { DropResult } from "@hello-pangea/dnd";
 import { DndContext, Draggable, Droppable } from "~/components/DragAndDrop";
-import { User } from "~/domain/users";
 import { Wish } from "~/domain/wishes";
 import { useUser } from "~/pages/profile";
 import { Avatar } from "../Avatar";
 import { EditableRowElement, ViewableRowElement } from "../WishRowElement";
 
-export function WishList({
-  isPublic = false,
-
-  user
-}: {
-  isPublic?: boolean;
-  wishes?: Wish[];
-  user: User;
-}) {
-  const { wishes, handleChange: updateState } = useUser();
+export function WishList({ isPublic = false }: { isPublic?: boolean }) {
+  const { user, wishes, handleChange: updateState } = useUser();
   const state = wishes ?? [];
 
   const toogleValue = (id: string, key: keyof Wish) => {
@@ -56,7 +47,7 @@ export function WishList({
 
   return (
     <Box display="flex" flexDirection="column" gap={2}>
-      <Avatar isPrivate={!isPublic} user={user} />
+      <Avatar isPrivate={!isPublic} user={user!} />
       <DndContext onDragEnd={onDragEnd}>
         <Droppable disabled={isPublic}>
           <Stack spacing={4}>

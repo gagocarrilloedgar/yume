@@ -55,8 +55,10 @@ export const userRouter = createTRPCRouter({
           username: input.username
         },
         select: {
+          id: true,
           name: true,
           image: true,
+          username: true,
           bio: true,
           wishes: {
             select: {

@@ -15,8 +15,8 @@ export const Publicbar = () => {
       variant="elevation"
       sx={{ backgroundColor: BACKGROUND }}
     >
-      <Container maxWidth="lg">
-        <Box display="flex" sx={{ py: 2 }}>
+      <Container maxWidth="md">
+        <Box display="flex" sx={{ pt: 2 }}>
           <Button {...editConnectStyle(COLORS.white)}>Conectar</Button>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: "flex" }}>

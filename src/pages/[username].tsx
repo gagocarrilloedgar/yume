@@ -1,10 +1,11 @@
 import { CircularProgress } from "@mui/material";
 import type { GetServerSideProps, NextPage } from "next";
 import { ParsedUrlQuery } from "querystring";
+import React from "react";
 import { WishList } from "~/components/WitshList";
-import { User } from "~/domain/users";
 import { Wish, mapWishesToUI } from "~/domain/wishes";
 import { api } from "~/utils/api";
+import { useUser } from "./profile";
 
 interface PublicProfileProps {
   username: string;
@@ -17,21 +18,26 @@ const PublicProfile: NextPage<PublicProfileProps> = ({ username }) => {
     { enabled: !!username }
   );
 
+  const { setState } = useUser();
+
+  React.useEffect(() => {
+    if (data && !isLoading) {
+      const { wishes, ...user } = data;
+      setState({
+        user,
+        isLoading,
+        isError,
+        wishes: mapWishesToUI(wishes as Wish[])
+      });
+    }
+  }, [data, isLoading, isError]);
+
   if ((!isLoading && !data) || (!data && isError))
     return <div>User not found</div>;
 
   if (!data || isLoading) return <CircularProgress />;
 
-  const userData = {
-    bio: data.bio,
-    name: data.name,
-    image: data.image,
-    username
-  } as User;
-
-  const wishses = mapWishesToUI(data.wishes as Wish[]);
-
-  return <WishList user={userData} isPublic wishes={wishses} />;
+  return <WishList isPublic />;
 };
 
 export default PublicProfile;
