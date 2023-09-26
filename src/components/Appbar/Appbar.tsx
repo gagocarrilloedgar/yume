@@ -1,7 +1,8 @@
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import { AppBar, Box, Button, Container, IconButton } from "@mui/material";
-import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/router";
+import { useUser } from "~/pages/profile";
 import { AddNewWish } from "../AddNewWish";
 import {
   BACKGROUND,
@@ -11,8 +12,18 @@ import {
 } from "./common";
 
 export const Privatebar = () => {
-  const previewMode = !usePathname()?.includes("/profile");
-  const user = useSession()?.data?.user;
+  const router = useRouter();
+  const { username } = router.query;
+
+  const isProfilePage = usePathname()?.includes("/profile");
+
+  const { user, wishes } = useUser();
+
+  const isSameUser = user?.username === username;
+
+  const showEdit = !isProfilePage && isSameUser;
+
+  const nextPosition = (wishes?.length ?? 0) + 1;
 
   return (
     <AppBar
@@ -23,7 +34,7 @@ export const Privatebar = () => {
     >
       <Container maxWidth="md">
         <Box display="flex" sx={{ pt: 2 }}>
-          {previewMode ? (
+          {showEdit ? (
             <Button href="/profile" {...editConnectStyle(COLORS.white)}>
               Edit
             </Button>
@@ -37,7 +48,7 @@ export const Privatebar = () => {
           )}
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: "flex" }}>
-            {previewMode ? (
+            {showEdit ? (
               <IconButton
                 size="small"
                 aria-label="Share"
@@ -47,7 +58,7 @@ export const Privatebar = () => {
                 <SendOutlinedIcon />
               </IconButton>
             ) : (
-              <AddNewWish />
+              <AddNewWish position={nextPosition} />
             )}
           </Box>
         </Box>

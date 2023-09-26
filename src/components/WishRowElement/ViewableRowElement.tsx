@@ -1,14 +1,16 @@
 import { Box, Card, Checkbox } from "@mui/material";
-import { WishType } from "../WitshList/items";
+import { Wish } from "~/domain/wishes";
 import { ViewLabel } from "./ViewLabel";
 
 export const ViewableRowElement = ({
   wish,
   handleToggle
 }: {
-  wish: WishType;
-  handleToggle: (id: number) => void;
+  wish: Wish;
+  handleToggle: (id: string) => void;
 }) => {
+  if (!wish) return null;
+
   return (
     <Card
       variant="outlined"
@@ -21,7 +23,7 @@ export const ViewableRowElement = ({
       }}
     >
       <Box sx={{ p: 1 }} display="flex" alignItems="center">
-        <ViewLabel label={wish.title} url={wish.url} />
+        <ViewLabel label={wish.title!} url={wish.url!} />
         <Box flexGrow={1} />
         <Checkbox
           color="default"

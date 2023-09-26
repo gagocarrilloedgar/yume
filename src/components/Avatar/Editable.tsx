@@ -8,10 +8,11 @@ import {
   Stack,
   TextField
 } from "@mui/material";
-import { User } from "@prisma/client";
 import React from "react";
+import { User } from "~/domain/users";
 import { COLORS } from "~/theme";
 import { api } from "~/utils/api";
+import { compact } from "~/utils/compact";
 
 export const EditableAvatar = ({ user }: { user: User }) => {
   const [state, setState] = React.useState<{
@@ -49,10 +50,12 @@ export const EditableAvatar = ({ user }: { user: User }) => {
 
     setLoading(true);
 
+    const updates = compact(state.user);
+
     try {
       await updateUser.mutateAsync(
         {
-          ...state.user
+          ...updates
         },
         {
           onError: (error) => {

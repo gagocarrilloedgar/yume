@@ -12,6 +12,7 @@ import { CssBaseline } from "@mui/material";
 import Head from "next/head";
 import { Layout } from "~/components/Layout";
 import { theme } from "~/theme";
+import { UserProvider } from "./profile";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -35,10 +36,12 @@ const MyApp: AppType<{ session: Session | null }> = ({
       </Head>
       <ThemeProvider theme={theme}>
         <SessionProvider session={session}>
-          <CssBaseline />
-          <Layout showBar={!hideBar}>
-            <Component {...pageProps} />
-          </Layout>
+          <UserProvider>
+            <CssBaseline />
+            <Layout showBar={!hideBar}>
+              <Component {...pageProps} />
+            </Layout>
+          </UserProvider>
         </SessionProvider>
       </ThemeProvider>
     </CacheProvider>

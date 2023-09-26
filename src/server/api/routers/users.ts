@@ -7,8 +7,6 @@ import {
   publicProcedure
 } from "~/server/api/trpc";
 
-import { compact } from "~/utils/compact";
-
 const userSchema = z.object({
   id: z.string().uuid(),
   name: z.string().optional(),
@@ -22,9 +20,9 @@ const userSchema = z.object({
 
 const profileSchema = z.object({
   id: z.string().uuid(),
-  name: z.string().nullable(),
-  email: z.string().email().nullable(),
-  bio: z.string().nullable()
+  name: z.string().nullable().optional(),
+  email: z.string().email().nullable().optional(),
+  bio: z.string().nullable().optional()
 });
 
 export const userRouter = createTRPCRouter({
@@ -34,6 +32,42 @@ export const userRouter = createTRPCRouter({
       return ctx.db.user.findUnique({
         where: {
           id: input.id
+        },
+        include: {
+          wishes: {
+            select: {
+              id: true,
+              title: true,
+              url: true,
+              position: true,
+              active: true,
+              senderId: true
+            }
+          }
+        }
+      });
+    }),
+  findOnePublic: publicProcedure
+    .input(z.object({ username: z.string() }))
+    .query(async ({ input, ctx }) => {
+      return ctx.db.user.findUnique({
+        where: {
+          username: input.username
+        },
+        select: {
+          name: true,
+          image: true,
+          bio: true,
+          wishes: {
+            select: {
+              id: true,
+              title: true,
+              url: true,
+              position: true,
+              active: true,
+              receiverId: true
+            }
+          }
         }
       });
     }),
@@ -65,12 +99,18 @@ export const userRouter = createTRPCRouter({
     .mutation(({ input, ctx }) => {
       console.log(input);
       const { id, ...data } = input;
+
+      const selectedData = userSchema
+        .pick({ name: true, email: true, bio: true })
+        .nullable()
+        .parse(data);
+
       return ctx.db.user.update({
         where: {
           id: id
         },
         data: {
-          ...compact(data)
+          ...selectedData
         }
       });
     }),

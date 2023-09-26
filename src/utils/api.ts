@@ -37,12 +37,12 @@ export const api = createTRPCNext<AppRouter>({
         loggerLink({
           enabled: (opts) =>
             process.env.NODE_ENV === "development" ||
-            (opts.direction === "down" && opts.result instanceof Error),
+            (opts.direction === "down" && opts.result instanceof Error)
         }),
         httpBatchLink({
-          url: `${getBaseUrl()}/api/trpc`,
-        }),
-      ],
+          url: `${getBaseUrl()}/api/trpc`
+        })
+      ]
     };
   },
   /**
@@ -50,7 +50,7 @@ export const api = createTRPCNext<AppRouter>({
    *
    * @see https://trpc.io/docs/nextjs#ssr-boolean-default-false
    */
-  ssr: false,
+  ssr: false
 });
 
 /**
@@ -66,3 +66,16 @@ export type RouterInputs = inferRouterInputs<AppRouter>;
  * @example type HelloOutput = RouterOutputs['example']['hello']
  */
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
+
+// Generic error handling function
+export async function handleDatabaseOperation<T>(
+  operation: Promise<T>,
+  errorMessage: string
+): Promise<T> {
+  try {
+    return await operation;
+  } catch (error) {
+    console.error(`Error: ${errorMessage}`, error);
+    throw new Error(`Unable to ${errorMessage.toLowerCase()}`);
+  }
+}

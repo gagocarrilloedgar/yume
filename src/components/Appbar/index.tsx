@@ -1,4 +1,3 @@
-
 import { useSession } from "next-auth/react";
 import { Privatebar } from "./Appbar";
 import { Publicbar } from "./Publicbar";

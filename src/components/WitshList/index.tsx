@@ -1,38 +1,38 @@
-import React from "react";
-
 import { Box, Stack } from "@mui/material";
 
 import { DropResult } from "@hello-pangea/dnd";
 import { DndContext, Draggable, Droppable } from "~/components/DragAndDrop";
-import { COLORS } from "~/theme";
+import { User } from "~/domain/users";
+import { Wish } from "~/domain/wishes";
+import { useUser } from "~/pages/profile";
 import { Avatar } from "../Avatar";
 import { EditableRowElement, ViewableRowElement } from "../WishRowElement";
-import { WishType, wishList } from "./items";
 
-export function WishList({ isPublic = false }: { isPublic?: boolean }) {
-  const shuffledColors = shuffleArray(Object.values(COLORS));
+export function WishList({
+  isPublic = false,
 
-  const [state, setState] = React.useState(() =>
-    wishList.map((wish, index) => ({
-      ...wish,
-      isEditing: false,
-      color: shuffledColors[index % shuffledColors.length]
-    }))
-  );
+  user
+}: {
+  isPublic?: boolean;
+  wishes?: Wish[];
+  user: User;
+}) {
+  const { wishes, handleChange: updateState } = useUser();
+  const state = wishes ?? [];
 
-  const toogleValue = (id: number, key: keyof WishType) => {
+  const toogleValue = (id: string, key: keyof Wish) => {
     const newList = state.map((wish) => {
       if (wish.id === id) return { ...wish, [key]: !wish[key] };
 
       return wish;
     });
-    setState(newList);
+    updateState({ wishes: newList });
   };
 
-  const toogleActive = (id: number) => toogleValue(id, "isActive");
-  const toogleAvailable = (id: number) => toogleValue(id, "available");
+  const toogleActive = (id: string) => toogleValue(id, "active");
+  const toogleAvailable = (id: string) => toogleValue(id, "available");
 
-  const handleChange = (key: keyof WishType, id: number, value: string) => {
+  const handleChange = (key: keyof Wish, id: string, value: string) => {
     const newList = state.map((wish) => {
       if (wish.id === id) {
         return {
@@ -42,21 +42,21 @@ export function WishList({ isPublic = false }: { isPublic?: boolean }) {
       }
       return wish;
     });
-    setState(newList);
+    updateState({ wishes: newList });
   };
 
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) return;
 
-    const reorderedWishList = [...state] as WishType[];
+    const reorderedWishList = [...state] as Wish[];
     const [reorderedItem] = reorderedWishList.splice(result.source.index, 1);
     reorderedWishList.splice(result.destination.index, 0, reorderedItem!);
-    setState(reorderedWishList);
+    updateState({ wishes: reorderedWishList });
   };
 
   return (
     <Box display="flex" flexDirection="column" gap={2}>
-      <Avatar />
+      <Avatar isPrivate={!isPublic} user={user} />
       <DndContext onDragEnd={onDragEnd}>
         <Droppable disabled={isPublic}>
           <Stack spacing={4}>
@@ -67,14 +67,14 @@ export function WishList({ isPublic = false }: { isPublic?: boolean }) {
                 id={whish.id.toString()}
                 index={index}
               >
-                {!isPublic ? (
+                {isPublic ? (
                   <ViewableRowElement
-                    wish={whish as WishType}
+                    wish={whish}
                     handleToggle={toogleAvailable}
                   />
                 ) : (
                   <EditableRowElement
-                    wish={whish as WishType}
+                    wish={whish}
                     toogleActive={toogleActive}
                     handleChange={handleChange}
                   />
@@ -86,17 +86,4 @@ export function WishList({ isPublic = false }: { isPublic?: boolean }) {
       </DndContext>
     </Box>
   );
-}
-
-function shuffleArray(array: string[]) {
-  const shuffledArray = [...array];
-  for (let i = shuffledArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-
-    [shuffledArray[i], shuffledArray[j]] = [
-      shuffledArray[j],
-      shuffledArray[i]
-    ] as [string, string];
-  }
-  return shuffledArray;
 }

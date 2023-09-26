@@ -1,29 +1,20 @@
 import {
   Box,
-  CircularProgress,
   Avatar as MuiAvatar,
   Typography,
   useMediaQuery
 } from "@mui/material";
-import { useSession } from "next-auth/react";
-import { usePathname } from "next/navigation";
-import { api } from "~/utils/api";
+
+import { User } from "~/domain/users";
 import { EditableAvatar } from "./Editable";
 
-export const Avatar = () => {
-  const path = usePathname();
-  const session = useSession();
-
-  const { data: user, isLoading } = api.users.findOne.useQuery(
-    {
-      id: session?.data?.user?.id as string
-    },
-    { enabled: session?.data?.user !== undefined }
-  );
-
-  const isPrivate =
-    session.status === "authenticated" && path?.includes("/profile");
-
+export const Avatar = ({
+  isPrivate,
+  user
+}: {
+  isPrivate: boolean;
+  user: User;
+}) => {
   // Define responsive styles
   const avatarStylesSmall = {
     border: "2px solid #000",
@@ -47,13 +38,6 @@ export const Avatar = () => {
     avatarStylesSmall.height = "10rem";
     avatarStylesSmall.marginBottom = "2rem";
   }
-
-  if (!user || isLoading || session.status === "loading")
-    return (
-      <Box alignItems="center" display="flex" flexDirection="column">
-        <CircularProgress size="5rem" />
-      </Box>
-    );
 
   if (isPrivate && user) return <EditableAvatar user={user} />;
 

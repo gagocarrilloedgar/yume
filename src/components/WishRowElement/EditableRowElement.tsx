@@ -1,7 +1,7 @@
 import DragIndicatorOutlinedIcon from "@mui/icons-material/DragIndicatorOutlined";
 import { Box, Card, Tooltip } from "@mui/material";
+import { Wish } from "~/domain/wishes";
 import { Toogle } from "../Switch";
-import { WishType } from "../WitshList/items";
 import { EditLabel } from "./EditLabel";
 
 export const EditableRowElement = ({
@@ -9,9 +9,9 @@ export const EditableRowElement = ({
   handleChange,
   toogleActive
 }: {
-  wish: WishType;
-  handleChange: (key: keyof WishType, id: number, title: string) => void;
-  toogleActive: (id: number) => void;
+  wish: Wish;
+  handleChange: (key: keyof Wish, id: string, title: string) => void;
+  toogleActive: (id: string) => void;
 }) => {
   const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) =>
     handleChange("title", wish.id, e.target.value);
@@ -38,9 +38,9 @@ export const EditableRowElement = ({
           <EditLabel label={wish.url} onChange={onChangeUrl} name="url" />
         </Box>
         <Box flexGrow={1} />
-        <Tooltip arrow title={wish.isActive ? "Hide" : "Show"}>
+        <Tooltip arrow title={wish.active ? "Hide" : "Show"}>
           <Toogle
-            checked={wish.isActive}
+            checked={wish.active}
             onChange={() => toogleActive(wish.id)}
           />
         </Tooltip>
