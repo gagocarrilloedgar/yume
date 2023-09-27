@@ -7,7 +7,7 @@ import {
 import { handleDatabaseOperation } from "~/utils/api";
 
 const wishSchema = z.object({
-  id: z.string().uuid(),
+  id: z.string().cuid(),
   title: z.string().min(1).max(255),
   url: z.string().url(),
   position: z.number().int(),
@@ -51,6 +51,57 @@ export const wishRouter = createTRPCRouter({
         "Create wish"
       )
     ),
+
+  reoder: protectedProcedure
+    .input(z.array(z.string().cuid()))
+    .mutation(async ({ input, ctx }) => {
+      // Update the position for all wishes
+      await Promise.all(
+        input.map(async (wishId, index) => {
+          return ctx.db.wish.update({
+            where: {
+              id: wishId
+            },
+            data: {
+              position: index + 1
+            }
+          });
+        })
+      );
+    }),
+
+  resolve: protectedProcedure
+    .input(
+      z.object({
+        id: z.string().cuid(),
+        active: z.boolean()
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Check if the user has permission to toggle the 'active' value
+      const wish = await ctx.db.wish.findUnique({
+        where: {
+          id: input.id
+        }
+      });
+
+      if (!wish || wish.receiverId !== ctx.session.user.id)
+        throw new Error(
+          "You do not have permission to toggle the 'active' value for this wish."
+        );
+
+      return handleDatabaseOperation(
+        ctx.db.wish.update({
+          where: {
+            id: input.id
+          },
+          data: {
+            active: input.active
+          }
+        }),
+        "Toggle wish status"
+      );
+    }),
 
   update: protectedProcedure
     .input(z.object({ ...wishSchema.shape }))

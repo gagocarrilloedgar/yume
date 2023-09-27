@@ -18,7 +18,7 @@ export const ViewableRowElement = ({
         p: 0.5,
         borderRadius: 0,
         border: "2px solid",
-        boxShadow: `7px 7px ${wish.color}, 7px 7px 0px 2px #171d21`
+        boxShadow: `7px 7px ${wish.color} , 7px 7px 0px 2px #171d21`
       }}
     >
       <Box sx={{ p: 0.5 }} display="flex" alignItems="center">

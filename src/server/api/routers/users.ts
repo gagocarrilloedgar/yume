@@ -36,6 +36,9 @@ export const userRouter = createTRPCRouter({
         },
         include: {
           wishes: {
+            orderBy: {
+              position: "asc"
+            },
             select: {
               id: true,
               title: true,
@@ -62,6 +65,12 @@ export const userRouter = createTRPCRouter({
           username: true,
           bio: true,
           wishes: {
+            where: {
+              active: true
+            },
+            orderBy: {
+              position: "asc"
+            },
             select: {
               id: true,
               title: true,

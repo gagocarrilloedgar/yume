@@ -39,8 +39,6 @@ async function main() {
         // Add more wishes as needed
       ]
     });
-
-    console.log({ user, wishes });
   } catch (error) {
     console.error(error);
   } finally {

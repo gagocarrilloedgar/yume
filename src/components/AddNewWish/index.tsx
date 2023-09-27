@@ -17,7 +17,7 @@ import DialogContent from "@mui/material/DialogContent";
 import { User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import * as React from "react";
-import { Wish } from "~/domain/wishes";
+import { Wish, mapWishesToUI } from "~/domain/wishes";
 import { useUser } from "~/pages/profile";
 import { api } from "~/utils/api";
 import { Toogle } from "../Switch";
@@ -69,8 +69,10 @@ export function AddNewWish({ position = 0 }: { position?: number }) {
       { ...body },
       {
         onSuccess: (data) => {
+          const newWishes = wishes ? [...wishes, data as Wish] : [data as Wish];
+          const formatedWishes = mapWishesToUI(newWishes);
           handleChange({
-            wishes: wishes ? [...wishes, data as Wish] : [data as Wish]
+            wishes: formatedWishes
           });
           setOpen(false);
         },
@@ -143,7 +145,8 @@ export function AddNewWish({ position = 0 }: { position?: number }) {
                 </Tooltip>
               }
             />
-            <FormControlLabel
+            {/*Next version*/}
+            {/*<FormControlLabel
               control={<Toogle name="available" sx={{ m: 1 }} defaultChecked />}
               label={
                 <Tooltip
@@ -156,7 +159,7 @@ export function AddNewWish({ position = 0 }: { position?: number }) {
                   </Box>
                 </Tooltip>
               }
-            />
+            />*/}
           </DialogContent>
           <DialogActions>
             <Button
