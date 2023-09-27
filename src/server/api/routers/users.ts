@@ -22,7 +22,8 @@ const profileSchema = z.object({
   id: z.string().uuid(),
   name: z.string().nullable().optional(),
   email: z.string().email().nullable().optional(),
-  bio: z.string().nullable().optional()
+  bio: z.string().nullable().optional(),
+  username: z.string().nullable().optional()
 });
 
 export const userRouter = createTRPCRouter({
@@ -99,11 +100,10 @@ export const userRouter = createTRPCRouter({
   update: protectedProcedure
     .input(z.object({ ...profileSchema.shape }))
     .mutation(({ input, ctx }) => {
-      console.log(input);
       const { id, ...data } = input;
 
       const selectedData = userSchema
-        .pick({ name: true, email: true, bio: true })
+        .pick({ name: true, email: true, bio: true, username: true })
         .nullable()
         .parse(data);
 
@@ -113,6 +113,13 @@ export const userRouter = createTRPCRouter({
         },
         data: {
           ...selectedData
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          bio: true,
+          username: true
         }
       });
     }),

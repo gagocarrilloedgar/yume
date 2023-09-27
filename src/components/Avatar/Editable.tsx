@@ -1,15 +1,8 @@
 import LoadingButton from "@mui/lab/LoadingButton";
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Stack,
-  TextField
-} from "@mui/material";
+import { Card, CardContent, Stack, TextField } from "@mui/material";
 import React from "react";
 import { User } from "~/domain/users";
+import { useUser } from "~/pages/profile";
 import { COLORS } from "~/theme";
 import { api } from "~/utils/api";
 import { compact } from "~/utils/compact";
@@ -26,6 +19,8 @@ export const EditableAvatar = ({ user }: { user: User }) => {
   });
 
   const updateUser = api.users.update.useMutation();
+
+  const { handleChange: updateLoggedUser } = useUser();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -61,11 +56,15 @@ export const EditableAvatar = ({ user }: { user: User }) => {
           onError: (error) => {
             alert(error.message);
           },
-          onSuccess: () => {
+          onSuccess: (data) => {
             setState((prev) => ({
               ...prev,
               changes: false
             }));
+
+            if (!data) return;
+            const newUser = data;
+            updateLoggedUser({ user: newUser });
           }
         }
       );
@@ -87,7 +86,8 @@ export const EditableAvatar = ({ user }: { user: User }) => {
       }}
     >
       <CardContent>
-        <Box
+        {/*Next version*/}
+        {/*<Box
           display="flex"
           sx={{ my: 2 }}
           justifyContent="space-between"
@@ -102,7 +102,7 @@ export const EditableAvatar = ({ user }: { user: User }) => {
           >
             Pick new image
           </Button>
-        </Box>
+    </Box>*/}
         <Stack spacing={2} direction="column">
           <TextField
             fullWidth
@@ -129,6 +129,15 @@ export const EditableAvatar = ({ user }: { user: User }) => {
             name="bio"
             rows={3}
             value={state.user.bio ?? ""}
+            onChange={handleChange}
+          />
+          <TextField
+            fullWidth
+            label="Username (handler)"
+            variant="outlined"
+            name="username"
+            rows={3}
+            value={state.user.username}
             onChange={handleChange}
           />
         </Stack>
