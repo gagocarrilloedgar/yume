@@ -45,7 +45,17 @@ export function AddNewWish({ position = 0 }: { position?: number }) {
 
     const data = new FormData(event.currentTarget);
 
-    // Get json from form data
+    const url = data.get("url") as string;
+
+    const urlRegex = new RegExp(
+      "^(https?:\\/\\/)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\\/\\w \\.-]*)*\\/?$"
+    );
+
+    if (!urlRegex.test(url)) {
+      alert("Url is not valid");
+      return;
+    }
+
     const json = Object.fromEntries(data.entries());
     const body = {
       ...json,
