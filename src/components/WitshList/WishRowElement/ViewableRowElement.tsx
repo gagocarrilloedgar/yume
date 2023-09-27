@@ -1,4 +1,4 @@
-import { Box, Card, Checkbox } from "@mui/material";
+import { Box, Card, CardActionArea } from "@mui/material";
 import { Wish } from "~/domain/wishes";
 import { ViewLabel } from "./ViewLabel";
 
@@ -21,15 +21,17 @@ export const ViewableRowElement = ({
         boxShadow: `7px 7px ${wish.color} , 7px 7px 0px 2px #171d21`
       }}
     >
-      <Box sx={{ p: 0.5 }} display="flex" alignItems="center">
-        <ViewLabel label={wish.title} url={wish.url} />
-        <Box flexGrow={1} />
-        <Checkbox
+      <CardActionArea href={wish.url} target="_blank">
+        <Box sx={{ p: 0.5 }} display="flex" alignItems="center">
+          <ViewLabel label={wish.title} url={wish.url} />
+          <Box flexGrow={1} />
+          {/*<Checkbox
           color="default"
           checked={!wish.available}
           onChange={() => handleToggle(wish.id)}
-        />
-      </Box>
+    />*/}
+        </Box>
+      </CardActionArea>
     </Card>
   );
 };
