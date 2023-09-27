@@ -19,6 +19,8 @@ export function Layout({
           sx={{
             display: "flex",
             flexDirection: "column",
+            px: 2,
+            py: 2,
             minHeight: "93vh"
           }}
         >

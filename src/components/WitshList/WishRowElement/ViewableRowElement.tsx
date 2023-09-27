@@ -15,15 +15,14 @@ export const ViewableRowElement = ({
     <Card
       variant="outlined"
       sx={{
-        p: 1,
-        my: 1,
+        p: 0.5,
         borderRadius: 0,
         border: "2px solid",
         boxShadow: `7px 7px ${wish.color}, 7px 7px 0px 2px #171d21`
       }}
     >
-      <Box sx={{ p: 1 }} display="flex" alignItems="center">
-        <ViewLabel label={wish.title!} url={wish.url!} />
+      <Box sx={{ p: 0.5 }} display="flex" alignItems="center">
+        <ViewLabel label={wish.title} url={wish.url} />
         <Box flexGrow={1} />
         <Checkbox
           color="default"

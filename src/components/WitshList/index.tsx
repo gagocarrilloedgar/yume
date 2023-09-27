@@ -5,7 +5,7 @@ import { DndContext, Draggable, Droppable } from "~/components/DragAndDrop";
 import { Wish } from "~/domain/wishes";
 import { useUser } from "~/pages/profile";
 import { Avatar } from "../Avatar";
-import { EditableRowElement, ViewableRowElement } from "../WishRowElement";
+import { EditableRowElement, ViewableRowElement } from "./WishRowElement";
 
 export function WishList({ isPublic = false }: { isPublic?: boolean }) {
   const { user, wishes, handleChange: updateState } = useUser();

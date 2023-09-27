@@ -4,7 +4,7 @@ import { Box, IconButton, Typography } from "@mui/material";
 export const ViewLabel = ({ label, url }: { label: string; url: string }) => {
   return (
     <Box display="flex" alignItems="center">
-      <Typography variant="body1" fontWeight="600">
+      <Typography variant="body2" fontWeight="600">
         {label}
       </Typography>
       <IconButton

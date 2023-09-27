@@ -1,11 +1,6 @@
-import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
-import { AppBar, Box, Button, Container, IconButton } from "@mui/material";
-import {
-  BACKGROUND,
-  COLORS,
-  editConnectStyle,
-  iconButtonStyle
-} from "./common";
+import { AppBar, Box, Container } from "@mui/material";
+import SendActionsDialog from "./SendActionsDialog";
+import { BACKGROUND } from "./common";
 
 export const Publicbar = () => {
   return (
@@ -16,18 +11,11 @@ export const Publicbar = () => {
       sx={{ backgroundColor: BACKGROUND }}
     >
       <Container maxWidth="md">
-        <Box display="flex" sx={{ pt: 2 }}>
-          <Button {...editConnectStyle(COLORS.white)}>Conectar</Button>
+        <Box display="flex" sx={{ px: 2, py: 1 }}>
+          {/*<Button {...editConnectStyle(COLORS.white)}>Conectar</Button>*/}
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: "flex" }}>
-            <IconButton
-              size="small"
-              aria-label="Share"
-              type="button"
-              {...iconButtonStyle}
-            >
-              <SendOutlinedIcon />
-            </IconButton>
+            <SendActionsDialog />
           </Box>
         </Box>
       </Container>

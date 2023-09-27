@@ -1,15 +1,10 @@
-import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
-import { AppBar, Box, Button, Container, IconButton } from "@mui/material";
+import { AppBar, Box, Button, Container } from "@mui/material";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
 import { useUser } from "~/pages/profile";
 import { AddNewWish } from "../AddNewWish";
-import {
-  BACKGROUND,
-  COLORS,
-  editConnectStyle,
-  iconButtonStyle
-} from "./common";
+import SendActionsDialog from "./SendActionsDialog";
+import { BACKGROUND, COLORS, editConnectStyle } from "./common";
 
 export const Privatebar = () => {
   const router = useRouter();
@@ -33,7 +28,7 @@ export const Privatebar = () => {
       sx={{ backgroundColor: BACKGROUND }}
     >
       <Container maxWidth="md">
-        <Box display="flex" sx={{ pt: 2 }}>
+        <Box display="flex" sx={{ px: 2, py: 1 }}>
           {showEdit ? (
             <Button href="/profile" {...editConnectStyle(COLORS.white)}>
               Edit
@@ -49,14 +44,7 @@ export const Privatebar = () => {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: "flex" }}>
             {showEdit ? (
-              <IconButton
-                size="small"
-                aria-label="Share"
-                type="button"
-                {...iconButtonStyle}
-              >
-                <SendOutlinedIcon />
-              </IconButton>
+              <SendActionsDialog />
             ) : (
               <AddNewWish position={nextPosition} />
             )}

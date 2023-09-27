@@ -2,6 +2,7 @@ import { Button } from "@mui/material";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { COLORS } from "~/theme";
 
 export const LoginButton = () => {
   return (
@@ -31,7 +32,11 @@ export const LogoutButton = () => {
         fullWidth
         variant="contained"
         color="secondary"
-        sx={{ mt: 2 }}
+        sx={{
+          mt: 4,
+          backgroundColor: "#fff",
+          boxShadow: `7px 7px ${COLORS.secondaryViolet}, 7px 7px 0px 2px #171d21`
+        }}
         onClick={() => signOut()}
       >
         Sign out

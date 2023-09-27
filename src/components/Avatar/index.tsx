@@ -18,8 +18,8 @@ export const Avatar = ({
   // Define responsive styles
   const avatarStylesSmall = {
     border: "2px solid #000",
-    width: "6rem",
-    height: "6rem",
+    width: "5.5rem",
+    height: "5.5rem",
     marginBottom: "1rem"
   };
 
@@ -29,30 +29,35 @@ export const Avatar = ({
 
   // Adjust styles for larger screens using media queries
   if (isMediumScreen) {
-    avatarStylesSmall.width = "8rem";
-    avatarStylesSmall.height = "8rem";
+    avatarStylesSmall.width = "6rem";
+    avatarStylesSmall.height = "6rem";
   }
 
   if (isLargeScreen) {
-    avatarStylesSmall.width = "10rem";
-    avatarStylesSmall.height = "10rem";
-    avatarStylesSmall.marginBottom = "2rem";
+    avatarStylesSmall.width = "7rem";
+    avatarStylesSmall.height = "7rem";
   }
 
   if (isPrivate && user) return <EditableAvatar user={user} />;
+
+  const userImage = user?.image ?? "";
+
+  const hasUrlImageFormat = userImage.startsWith("http");
+  const roboHashCatGenerator = `https://robohash.org/${user?.username}?set=set4`;
+  const imageSRC = hasUrlImageFormat ? userImage : roboHashCatGenerator;
 
   return (
     <Box
       alignItems="center"
       display="flex"
       flexDirection="column"
-      sx={{ pb: 4 }}
+      sx={{ pb: 2 }}
     >
-      <MuiAvatar alt="Remy Sharp" sx={avatarStylesSmall}>
-        {user?.name}
+      <MuiAvatar src={imageSRC} alt="Remy Sharp" sx={avatarStylesSmall}>
+        {user?.username}
       </MuiAvatar>
       <Typography variant="h5" fontWeight="bold">
-        {user?.name}
+        @{user?.username}
       </Typography>
       <Typography variant="body1">{user?.bio ?? ""}</Typography>
     </Box>

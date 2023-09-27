@@ -8,6 +8,7 @@ export const roboto = Roboto({
   display: "swap"
 });
 
+const BACKGROUND = "#E8E8E8";
 export enum COLORS {
   white = "#fff",
   primaryGreen = "#b2e1bb",
@@ -16,8 +17,7 @@ export enum COLORS {
   secondaryViolet = "#c3acf3",
   secondaryYellow = "#d9e952",
   secondaryPink = "#d795be",
-  secondaryOrange = "#F6C174",
-  background = "#E8E8E8"
+  secondaryOrange = "#F6C174"
 }
 
 export const theme = createTheme({
@@ -25,11 +25,13 @@ export const theme = createTheme({
     mode: "light",
     primary: {
       main: COLORS.primaryGreen,
-      contrastText: COLORS.background
+      dark: COLORS.greenAction,
+      contrastText: BACKGROUND
     },
     secondary: {
       main: COLORS.secondaryViolet,
-      contrastText: COLORS.background
+      dark: COLORS.secondaryPink,
+      contrastText: BACKGROUND
     },
     background: {
       default: "#E8E8E8",

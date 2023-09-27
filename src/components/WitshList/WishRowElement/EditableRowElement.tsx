@@ -1,7 +1,7 @@
 import DragIndicatorOutlinedIcon from "@mui/icons-material/DragIndicatorOutlined";
 import { Box, Card, Tooltip } from "@mui/material";
 import { Wish } from "~/domain/wishes";
-import { Toogle } from "../Switch";
+import { Toogle } from "../../Switch";
 import { EditLabel } from "./EditLabel";
 
 export const EditableRowElement = ({
@@ -28,6 +28,9 @@ export const EditableRowElement = ({
         my: 1,
         borderRadius: 0,
         border: "2px solid",
+        "&:hover": {
+          backgroundColor: "whitesmoke"
+        },
         boxShadow: `7px 7px ${wish.color}, 7px 7px 0px 2px #171d21`
       }}
     >
