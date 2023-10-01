@@ -118,15 +118,17 @@ export const wishRouter = createTRPCRouter({
     ),
 
   delete: protectedProcedure
-    .input(z.object({ id: z.string().uuid() }))
-    .query(({ input, ctx }) =>
+    .input(z.array(z.string().cuid()))
+    .mutation(({ input, ctx }) =>
       handleDatabaseOperation(
-        ctx.db.wish.delete({
+        ctx.db.wish.deleteMany({
           where: {
-            id: input.id
+            id: {
+              in: input
+            }
           }
         }),
-        "Delete wish"
+        "Wishes deleted"
       )
     )
 });

@@ -6,13 +6,15 @@ import { Wish } from "~/domain/wishes";
 import { useUser } from "~/pages/profile";
 import { api } from "~/utils/api";
 import { Avatar } from "../Avatar";
+import { RemoveWishes } from "./RemoveWishes";
+import { SelectedIdsProvider } from "./RemoveWishes/useSelectedIds";
 import { EditableRowElement, ViewableRowElement } from "./WishRowElement";
 
 export function WishList({ isPublic = false }: { isPublic?: boolean }) {
   const { user, wishes, handleChange: updateState } = useUser();
-  const state = wishes ?? [];
-
   const { isLoading, mutateAsync } = api.wishes.reoder.useMutation();
+
+  const state = wishes ?? [];
 
   const toogleValue = (id: string, key: keyof Wish) => {
     const newList = state.map((wish) => {
@@ -67,35 +69,38 @@ export function WishList({ isPublic = false }: { isPublic?: boolean }) {
   };
 
   return (
-    <Box display="flex" flexDirection="column" gap={2}>
-      <Avatar isPrivate={!isPublic} user={user!} />
-      <DndContext onDragEnd={onDragEnd}>
-        <Droppable disabled={isPublic}>
-          <Stack spacing={4}>
-            {state.map((whish, index) => (
-              <Draggable
-                disabled={isPublic || isLoading}
-                key={whish.id.toString()}
-                id={whish.id.toString()}
-                index={index}
-              >
-                {isPublic ? (
-                  <ViewableRowElement
-                    wish={whish}
-                    handleToggle={toogleAvailable}
-                  />
-                ) : (
-                  <EditableRowElement
-                    wish={whish}
-                    toogleActive={toogleActive}
-                    handleChange={handleChange}
-                  />
-                )}
-              </Draggable>
-            ))}
-          </Stack>
-        </Droppable>
-      </DndContext>
-    </Box>
+    <SelectedIdsProvider>
+      <Box display="flex" flexDirection="column" gap={2}>
+        <Avatar isPrivate={!isPublic} user={user!} />
+        <RemoveWishes />
+        <DndContext onDragEnd={onDragEnd}>
+          <Droppable disabled={isPublic}>
+            <Stack spacing={4}>
+              {state.map((whish, index) => (
+                <Draggable
+                  disabled={isPublic || isLoading}
+                  key={whish.id.toString()}
+                  id={whish.id.toString()}
+                  index={index}
+                >
+                  {isPublic ? (
+                    <ViewableRowElement
+                      wish={whish}
+                      handleToggle={toogleAvailable}
+                    />
+                  ) : (
+                    <EditableRowElement
+                      wish={whish}
+                      toogleActive={toogleActive}
+                      handleChange={handleChange}
+                    />
+                  )}
+                </Draggable>
+              ))}
+            </Stack>
+          </Droppable>
+        </DndContext>
+      </Box>
+    </SelectedIdsProvider>
   );
 }

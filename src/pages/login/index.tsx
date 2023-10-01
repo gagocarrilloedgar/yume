@@ -2,17 +2,17 @@ import { signIn } from "next-auth/react";
 import React from "react";
 
 import {
-    Box,
-    Button,
-    Card,
-    CardContent,
-    Container,
-    IconButton,
-    InputAdornment,
-    Link,
-    Stack,
-    TextField,
-    Typography
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Container,
+  IconButton,
+  InputAdornment,
+  Link,
+  Stack,
+  TextField,
+  Typography
 } from "@mui/material";
 
 import Visibility from "@mui/icons-material/Visibility";
@@ -142,6 +142,9 @@ export default function Login() {
                 Login
               </Button>
             </Box>
+            <Button onClick={() => signIn("email")}>
+              Sign in without password
+            </Button>
           </CardContent>
         </Card>
       </form>

@@ -1,8 +1,9 @@
 import DragIndicatorOutlinedIcon from "@mui/icons-material/DragIndicatorOutlined";
-import { Box, Card, Tooltip } from "@mui/material";
+import { Box, Card, Checkbox, Tooltip } from "@mui/material";
 import { Wish } from "~/domain/wishes";
 import { api } from "~/utils/api";
 import { Toogle } from "../../Switch";
+import { useSelectedContext } from "../RemoveWishes/useSelectedIds";
 import { EditLabel } from "./EditLabel";
 
 export const EditableRowElement = ({
@@ -14,15 +15,20 @@ export const EditableRowElement = ({
   handleChange: (key: keyof Wish, id: string, title: string) => void;
   toogleActive: (id: string) => void;
 }) => {
+  const { mutateAsync, isLoading } = api.wishes.resolve.useMutation();
+  const { selectedIds, handleSelect } = useSelectedContext();
+  const isSelected = selectedIds.includes(wish.id);
+
+  const onChangeCheckbox = () => {
+    handleSelect(wish.id);
+  };
+
   const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) =>
     handleChange("title", wish.id, e.target.value);
 
   const onChangeUrl = (e: React.ChangeEvent<HTMLInputElement>) =>
     handleChange("url", wish.id, e.target.value);
 
-  const { mutateAsync, isLoading } = api.wishes.resolve.useMutation();
-
-  console.log({ wish });
   const handleUpdateToggle = async (id: string) => {
     try {
       toogleActive(id);
@@ -59,8 +65,14 @@ export const EditableRowElement = ({
       }}
     >
       <Box sx={{ p: 1 }} display="flex" alignItems="center">
-        <DragIndicatorOutlinedIcon fontSize="medium" sx={{ mr: 2 }} />
-        <Box width="85%">
+        <DragIndicatorOutlinedIcon fontSize="medium" sx={{ mr: 0 }} />
+        <Checkbox
+          sx={{ mr: 2 }}
+          checked={isSelected}
+          onChange={onChangeCheckbox}
+        />
+
+        <Box width="70%">
           <EditLabel label={wish.title} onChange={onChangeTitle} name="title" />
           <EditLabel label={wish.url} onChange={onChangeUrl} name="url" />
         </Box>
