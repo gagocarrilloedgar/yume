@@ -142,9 +142,6 @@ export default function Login() {
                 Login
               </Button>
             </Box>
-            <Button onClick={() => signIn("email")}>
-              Sign in without password
-            </Button>
           </CardContent>
         </Card>
       </form>
