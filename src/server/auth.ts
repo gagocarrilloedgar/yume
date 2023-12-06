@@ -9,7 +9,6 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 import { compare } from "bcryptjs";
 import CredentialsProvider from "next-auth/providers/credentials";
-// import EmailProvider from "next-auth/providers/email";
 import GoogleProvider from "next-auth/providers/google";
 
 import { env } from "~/env.mjs";
@@ -81,17 +80,6 @@ export const authOptions: NextAuthOptions = {
         };
       }
     })
-    /*EmailProvider({
-      server: {
-        host: env.SMTP_HOST,
-        port: Number(env.SMTP_PORT),
-        auth: {
-          user: env.SMTP_USER,
-          pass: env.SMTP_PASSWORD
-        }
-      },
-      from: process.env.SMTP_FROM
-    })*/
   ],
   callbacks: {
     session: ({ session, token }) => {

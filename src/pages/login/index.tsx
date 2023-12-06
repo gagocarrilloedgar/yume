@@ -1,4 +1,4 @@
-import { signIn } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import React from "react";
 
 import {
@@ -17,10 +17,11 @@ import {
 
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+
 import { useRouter } from "next/navigation";
 import { COLORS } from "~/theme";
 
-export default function Login() {
+function Login() {
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const router = useRouter();
@@ -64,7 +65,7 @@ export default function Login() {
             <Box
               sx={{
                 pt: 3,
-                pb: 6,
+                pb: 2,
                 textAlign: "center"
               }}
             >
@@ -73,7 +74,7 @@ export default function Login() {
                 component="h1"
                 sx={{ textTransform: "uppercase", fontWeight: "bold" }}
               >
-                Nice to see you again 😎
+                Nice to see you😎
               </Typography>
               <Typography variant="body1">
                 Useful & meaninfull gifts without sweat
@@ -131,7 +132,7 @@ export default function Login() {
                 </Typography>
               </Stack>
             </Stack>
-            <Box display="flex" justifyContent="center">
+            <Box display="flex" pb={4} justifyContent="center">
               <Button
                 disableElevation
                 type="submit"
@@ -149,6 +150,80 @@ export default function Login() {
   );
 }
 
-Login.defaultProps = {
-  hideBar: true
-};
+export default function Google() {
+  const session = useSession();
+  const router = useRouter();
+
+  console.log(session);
+
+  const login = async () => {
+    if (session.data) return router.push("/profile");
+
+    await signIn("google", { callbackUrl: "/profile" });
+  };
+
+  return (
+    <Container sx={{ margin: "auto" }} maxWidth="sm">
+      <form>
+        <Card
+          variant="outlined"
+          sx={{
+            p: 2,
+            my: 2,
+            minHeight: "max-content",
+            border: "2px solid",
+            boxShadow: `20px 20px ${COLORS.secondaryOrange}, 20px 20px 0px 2px #171d21`
+          }}
+        >
+          <CardContent>
+            <Box
+              sx={{
+                pt: 3,
+                pb: 2,
+                textAlign: "center"
+              }}
+            >
+              <Typography
+                variant="h6"
+                component="h1"
+                sx={{ textTransform: "uppercase", fontWeight: "bold" }}
+              >
+                Nice to see you😎
+              </Typography>
+              <Typography variant="body1">
+                Useful & meaninfull gifts without sweat
+              </Typography>
+            </Box>
+            <Box display="flex" pb={3} justifyContent="center">
+              <Stack>
+                <Button
+                  disableElevation
+                  variant="contained"
+                  color="primary"
+                  disabled={session.status === "loading"}
+                  onClick={login}
+                  sx={{ mt: 4, px: 4 }}
+                >
+                  {session.data ? "Go to profile" : "Login with Google"}
+                </Button>
+                {session.data && (
+                  <Button
+                    disableElevation
+                    variant="text"
+                    color="inherit"
+                    onClick={() => signOut()}
+                    sx={{ mt: 4, px: 4 }}
+                  >
+                    Logout
+                  </Button>
+                )}
+              </Stack>
+            </Box>
+          </CardContent>
+        </Card>
+      </form>
+    </Container>
+  );
+}
+
+

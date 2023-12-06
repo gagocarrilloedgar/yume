@@ -23,7 +23,6 @@ export async function sendPasswordRecoveryToken({
     to: email,
     subject: "Yume password Recovery",
     html: `
-        <h1>Yume</h1>
         <p>Someone (hopefully you) has requested a password reset for your account.</p>
         <p>If you did not request this, you can safely ignore this email.</p>
         <p>Otherwise, please click the link below to complete the process:</p>

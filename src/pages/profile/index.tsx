@@ -7,6 +7,7 @@ import { api } from "~/utils/api";
 
 export default function ProfilePage() {
   const { data: session } = useSession();
+
   const { setState } = useUser();
 
   const { data, isLoading, isError } = api.users.findOne.useQuery(
