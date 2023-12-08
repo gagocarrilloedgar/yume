@@ -72,7 +72,7 @@ export const EditableRowElement = ({
           onChange={onChangeCheckbox}
         />
 
-        <Box width="70%">
+        <Box width="60%">
           <EditLabel label={wish.title} onChange={onChangeTitle} name="title" />
           <EditLabel label={wish.url} onChange={onChangeUrl} name="url" />
         </Box>

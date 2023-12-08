@@ -1,4 +1,5 @@
 import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import { Box, IconButton, TextField, Typography } from "@mui/material";
 import React from "react";
 
@@ -18,6 +19,7 @@ export const EditLabel = ({
       {isEditing ? (
         <TextField
           fullWidth
+          maxRows={4}
           value={label}
           name={name}
           onChange={onChange}
@@ -43,7 +45,11 @@ export const EditLabel = ({
         color="inherit"
         sx={{ mx: 1 }}
       >
-        <ModeEditOutlinedIcon fontSize="small" />
+        {isEditing ? (
+          <SaveOutlinedIcon fontSize="small" />
+        ) : (
+          <ModeEditOutlinedIcon fontSize="small" />
+        )}
       </IconButton>
     </Box>
   );
