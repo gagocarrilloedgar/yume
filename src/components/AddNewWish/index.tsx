@@ -22,7 +22,7 @@ import { useUser } from "~/pages/profile";
 import { api } from "~/utils/api";
 import { Toogle } from "../Switch";
 
-export function AddNewWish({ position = 0 }: { position?: number }) {
+export function AddNewWish({ position = 0 }: { readonly position?: number }) {
   const [open, setOpen] = React.useState(false);
   const session = useSession();
 
