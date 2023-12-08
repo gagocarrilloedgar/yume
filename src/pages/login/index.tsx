@@ -154,8 +154,6 @@ export default function Google() {
   const session = useSession();
   const router = useRouter();
 
-  console.log(session);
-
   const login = async () => {
     if (session.data) return router.push("/profile");
 
@@ -226,4 +224,6 @@ export default function Google() {
   );
 }
 
-
+Google.defaultProps = {
+  hideBar: true
+};
