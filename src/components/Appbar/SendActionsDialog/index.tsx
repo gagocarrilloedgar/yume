@@ -131,18 +131,9 @@ function SimpleDialog(props: Readonly<SimpleDialogProps>) {
             disableElevation
             variant="contained"
             fullWidth
-            href="/register"
-          >
-            Create you account
-          </Button>
-          <Button
-            disableElevation
-            variant="contained"
-            color="secondary"
-            fullWidth
             href="/login"
           >
-            Login
+            Create an account or sign in
           </Button>
         </Stack>
       </Box>
