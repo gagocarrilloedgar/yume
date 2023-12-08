@@ -9,6 +9,7 @@ import { createEmotionCache } from "~/utils/createEmotionCache";
 
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import { CssBaseline } from "@mui/material";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import Head from "next/head";
 import { Layout } from "~/components/Layout";
 import { theme } from "~/theme";
@@ -41,6 +42,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
             <CssBaseline />
             <LayoutComponent showBar={!hideBar}>
               <Component {...pageProps} />
+              <SpeedInsights />
             </LayoutComponent>
           </UserProvider>
         </SessionProvider>

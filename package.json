@@ -33,6 +33,7 @@
     "@trpc/next": "^10.37.1",
     "@trpc/react-query": "^10.37.1",
     "@trpc/server": "^10.37.1",
+    "@vercel/speed-insights": "^1.0.0",
     "bcryptjs": "^2.4.3",
     "create-instance": "link:@emotion/server/create-instance",
     "next": "^13.4.19",
