@@ -57,7 +57,7 @@ export default function SendActionsDialog() {
 
 const emails = ["username@gmail.com", "user02@gmail.com"];
 
-function SimpleDialog(props: SimpleDialogProps) {
+function SimpleDialog(props: Readonly<SimpleDialogProps>) {
   const { onClose, selectedValue, open } = props;
   const router = useRouter();
   const [copied, setCopied] = React.useState(false);
