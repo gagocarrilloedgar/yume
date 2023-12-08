@@ -1,4 +1,3 @@
-
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
@@ -14,9 +13,16 @@ export const StickyFooter = () => {
       }}
     >
       <Typography variant="body2">
-        Created with 👨‍💻 by @gagocarrilloedgar
+        Created with 👨‍💻 by{" "}
+        <Link
+          color="inherit"
+          target="_blank"
+          href="https://github.com/gagocarrilloedgar"
+        >
+          @gagocarrilloedgar
+        </Link>{" "}
       </Typography>
-      <Copyright />
+      {/*<Copyright />*/}
     </Box>
   );
 };

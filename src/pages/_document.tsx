@@ -1,12 +1,12 @@
 import createEmotionServer from "@emotion/server/create-instance";
 import { AppType } from "next/app";
 import Document, {
-    DocumentContext,
-    DocumentProps,
-    Head,
-    Html,
-    Main,
-    NextScript
+  DocumentContext,
+  DocumentProps,
+  Head,
+  Html,
+  Main,
+  NextScript
 } from "next/document";
 import * as React from "react";
 import { roboto, theme } from "~/theme";

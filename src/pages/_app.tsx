@@ -28,6 +28,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }: MyAppProps) => {
   // Check if the Component has a showBar property and use it
   const hideBar = Component?.defaultProps?.hideBar;
+  const LayoutComponent = Component?.defaultProps?.layout ?? Layout;
 
   return (
     <CacheProvider value={emotionCache}>
@@ -38,9 +39,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <SessionProvider session={session}>
           <UserProvider>
             <CssBaseline />
-            <Layout showBar={!hideBar}>
+            <LayoutComponent showBar={!hideBar}>
               <Component {...pageProps} />
-            </Layout>
+            </LayoutComponent>
           </UserProvider>
         </SessionProvider>
       </ThemeProvider>
