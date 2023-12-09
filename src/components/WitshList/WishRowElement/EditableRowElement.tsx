@@ -16,6 +16,9 @@ export const EditableRowElement = ({
   toogleActive: (id: string) => void;
 }) => {
   const { mutateAsync, isLoading } = api.wishes.resolve.useMutation();
+  const { mutateAsync: updateWish, isLoading: updateOnGoing } =
+    api.wishes.update.useMutation();
+
   const { selectedIds, handleSelect } = useSelectedContext();
   const isSelected = selectedIds.includes(wish.id);
 
@@ -49,6 +52,29 @@ export const EditableRowElement = ({
     }
   };
 
+  const handleUpdateWish = async (key: "title" | "url", value?: string) => {
+    if (!value) return;
+
+    try {
+      await updateWish(
+        {
+          id: wish.id,
+          [key]: value
+        },
+        {
+          onError: (error) => {
+            alert(error.message);
+          }
+        }
+      );
+    } catch {
+      alert("Something went wrong");
+    }
+  };
+
+  const updateTitle = (value?: string) => handleUpdateWish("title", value);
+  const updateUrl = (value?: string) => handleUpdateWish("url", value);
+
   return (
     <Card
       key={wish.id}
@@ -73,8 +99,18 @@ export const EditableRowElement = ({
         />
 
         <Box width="60%">
-          <EditLabel label={wish.title} onChange={onChangeTitle} name="title" />
-          <EditLabel label={wish.url} onChange={onChangeUrl} name="url" />
+          <EditLabel
+            label={wish.title}
+            updateValue={updateTitle}
+            onChange={onChangeTitle}
+            name="title"
+          />
+          <EditLabel
+            updateValue={updateUrl}
+            label={wish.url}
+            onChange={onChangeUrl}
+            name="url"
+          />
         </Box>
         <Box flexGrow={1} />
         <Tooltip arrow title={wish.active ? "Hide" : "Show"}>

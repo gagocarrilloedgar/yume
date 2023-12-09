@@ -17,9 +17,14 @@ const wishSchema = z.object({
   receiverId: z.string().uuid()
 });
 
+const updateSchema = wishSchema
+  .omit({ id: true })
+  .partial()
+  .merge(z.object({ id: z.string().cuid() }));
+
 export const wishRouter = createTRPCRouter({
   findOne: publicProcedure
-    .input(z.object({ id: z.string().uuid() }))
+    .input(z.object({ id: z.string().cuid() }))
     .query(({ input, ctx }) =>
       handleDatabaseOperation(
         ctx.db.wish.findUnique({
@@ -104,7 +109,7 @@ export const wishRouter = createTRPCRouter({
     }),
 
   update: protectedProcedure
-    .input(z.object({ ...wishSchema.shape }))
+    .input(z.object({ ...updateSchema.shape }))
     .mutation(({ input, ctx }) =>
       handleDatabaseOperation(
         ctx.db.wish.update({

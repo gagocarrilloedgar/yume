@@ -6,13 +6,22 @@ import React from "react";
 export const EditLabel = ({
   label,
   name,
+  updateValue,
   onChange
 }: {
   label: string;
   name: string;
+  updateValue: (value?: string) => Promise<void>;
   onChange: (e: any) => void;
 }) => {
   const [isEditing, setIsEditing] = React.useState(false);
+
+  const changeEditMode = async () => {
+    if (isEditing) {
+      await updateValue(label);
+    }
+    setIsEditing((prev) => !prev);
+  };
 
   return (
     <Box display="flex" alignItems="center">
@@ -40,11 +49,7 @@ export const EditLabel = ({
           {label}
         </Typography>
       )}
-      <IconButton
-        onClick={() => setIsEditing((prev) => !prev)}
-        color="inherit"
-        sx={{ mx: 1 }}
-      >
+      <IconButton onClick={changeEditMode} color="inherit" sx={{ mx: 1 }}>
         {isEditing ? (
           <SaveOutlinedIcon fontSize="small" />
         ) : (
