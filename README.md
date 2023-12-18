@@ -1,28 +1,50 @@
-# Create T3 App
+# Yume - milista.xyz
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+## Migrations
 
-## What's next? How do I make an app with this?
+1. **Make sure to be loggedin in Planetscale**
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+```bash
+pscale auth login
+```
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+2. **Create a Migration:**
 
-## Learn More
+Run the following command to create a new migration:
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+```bash
+ npx prisma db push
+```
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+Unlike the `prisma migrate dev` command, it will not create a migrations folder containing a SQL file with the SQL used to update the schema in your PlanetScale database. PlanetScale will be tracking your migrations in this workflow.
 
-## How do I deploy this?
+Also make sure that if **safe migrations** are enabled the datasource should point to the same connection (branch)
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+```PRISMA
+datasource db {
+  provider     = "mysql"
+  url          = env("DEV_DATABASE_URL")
+  relationMode = "prisma"
+}
+```
+
+This command will analyze the changes in your Prisma schema and generate a new migration file. If you've only added th
+`Favorite` model and not modified existing models, the migration should include the creation of the `Favorite` table.
+
+3. **Review the Migration:**
+
+- Open the generated migration file (located in the `prisma/migrations` directory) and review the SQL statements to ensure they align with your expectations.
+
+4. **Apply the Migration:**
+
+- Run the following command to apply the migration and update your database on PlanetScale:
+
+```bash
+npx prisma migrate up --experimental
+```
+
+This command executes the migration and applies the changes to your database.
+
+
