@@ -9,7 +9,7 @@ const favoriteSchema = z.object({
 
 export const favoriteRouter = createTRPCRouter({
   createFavorite: protectedProcedure
-    .input(z.object({ userId: z.string(), favoriteUserId: z.string() }))
+    .input(favoriteSchema.omit({ id: true }))
     .mutation(({ input, ctx }) => {
       return ctx.db.favorite.create({
         data: input
@@ -17,7 +17,7 @@ export const favoriteRouter = createTRPCRouter({
     }),
 
   deleteFavorite: protectedProcedure
-    .input(z.object({ id: z.string() }))
+    .input(favoriteSchema.pick({ id: true }))
     .mutation(({ input, ctx }) => {
       return ctx.db.favorite.delete({
         where: {
@@ -27,7 +27,7 @@ export const favoriteRouter = createTRPCRouter({
     }),
 
   findUserFavorites: protectedProcedure
-    .input(z.object({ userId: z.string() }))
+    .input(favoriteSchema.pick({ userId: true }))
     .query(({ input, ctx }) => {
       return ctx.db.favorite.findMany({
         where: {
