@@ -30,21 +30,6 @@ datasource db {
 }
 ```
 
-This command will analyze the changes in your Prisma schema and generate a new migration file. If you've only added th
-`Favorite` model and not modified existing models, the migration should include the creation of the `Favorite` table.
 
-3. **Review the Migration:**
-
-- Open the generated migration file (located in the `prisma/migrations` directory) and review the SQL statements to ensure they align with your expectations.
-
-4. **Apply the Migration:**
-
-- Run the following command to apply the migration and update your database on PlanetScale:
-
-```bash
-npx prisma migrate up --experimental
-```
-
-This command executes the migration and applies the changes to your database.
-
+## Seeds
 

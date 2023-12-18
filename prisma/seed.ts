@@ -5,40 +5,65 @@ const prisma = new PrismaClient();
 
 async function main() {
   try {
-    const password = await hash("password123", 12);
+    // Common password for all users
+    const commonPassword = await hash("password123", 12);
 
-    // Create or update the user
-    const user = await prisma.user.upsert({
-      where: { email: "admin@admin.com" },
-      update: {},
-      create: {
+    // Array of user data
+    const userData = [
+      {
         email: "admin@admin.com",
         username: "admin",
-        name: "Admin",
-        password
+        name: "Admin"
+      },
+      {
+        email: "user1@example.com",
+        username: "user1",
+        name: "User 1"
+      },
+      {
+        email: "user2@example.com",
+        username: "user2",
+        name: "User 2"
       }
-    });
+      // Add more users as needed
+    ];
 
-    // Add wishes for the user
-    const wishes = await prisma.wish.createMany({
-      data: [
-        {
-          title: "Wish 1",
-          url: "https://example.com/wish1",
-          position: 1,
-          active: true,
-          receiverId: user.id
-        },
-        {
-          title: "Wish 2",
-          url: "https://example.com/wish2",
-          position: 2,
-          active: true,
-          receiverId: user.id
-        }
-        // Add more wishes as needed
-      ]
-    });
+    const users = await Promise.all(
+      userData.map(async (data) => {
+        return prisma.user.upsert({
+          where: { email: data.email },
+          update: {},
+          create: {
+            ...data,
+            password: commonPassword
+          }
+        });
+      })
+    );
+
+    await Promise.all(
+      users.map(async (user) => {
+        return prisma.wish.createMany({
+          data: [
+            {
+              title: `Wish for ${user.name} 1`,
+              url: `https://example.com/${user.username}/wish1`,
+              position: 1,
+              active: true,
+              receiverId: user.id
+            },
+            {
+              title: `Wish for ${user.name} 2`,
+              url: `https://example.com/${user.username}/wish2`,
+              position: 2,
+              active: true,
+              receiverId: user.id
+            }
+            // Add more wishes as needed
+          ]
+        });
+      })
+    );
   } catch (error) {
     console.error(error);
   } finally {
