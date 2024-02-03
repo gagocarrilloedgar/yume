@@ -76,10 +76,10 @@ dependencies:
     version: 13.5.2(react-dom@18.2.0)(react@18.2.0)
   next-auth:
     specifier: ^4.24.5
-    version: 4.24.5(next@13.5.2)(nodemailer@6.9.5)(react-dom@18.2.0)(react@18.2.0)
+    version: 4.24.5(next@13.5.2)(nodemailer@6.9.9)(react-dom@18.2.0)(react@18.2.0)
   nodemailer:
-    specifier: ^6.9.5
-    version: 6.9.5
+    specifier: ^6.9.9
+    version: 6.9.9
   react:
     specifier: 18.2.0
     version: 18.2.0
@@ -700,7 +700,7 @@ packages:
       next-auth: ^4
     dependencies:
       '@prisma/client': 5.3.1(prisma@5.3.1)
-      next-auth: 4.24.5(next@13.5.2)(nodemailer@6.9.5)(react-dom@18.2.0)(react@18.2.0)
+      next-auth: 4.24.5(next@13.5.2)(nodemailer@6.9.9)(react-dom@18.2.0)(react@18.2.0)
     dev: false
 
   /@next/env@13.5.2:
@@ -2640,7 +2640,7 @@ packages:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: true
 
-  /next-auth@4.24.5(next@13.5.2)(nodemailer@6.9.5)(react-dom@18.2.0)(react@18.2.0):
+  /next-auth@4.24.5(next@13.5.2)(nodemailer@6.9.9)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-3RafV3XbfIKk6rF6GlLE4/KxjTcuMCifqrmD+98ejFq73SRoj2rmzoca8u764977lH/Q7jo6Xu6yM+Re1Mz/Og==}
     peerDependencies:
       next: ^12.2.5 || ^13 || ^14
@@ -2656,7 +2656,7 @@ packages:
       cookie: 0.5.0
       jose: 4.15.4
       next: 13.5.2(react-dom@18.2.0)(react@18.2.0)
-      nodemailer: 6.9.5
+      nodemailer: 6.9.9
       oauth: 0.9.15
       openid-client: 5.6.1
       preact: 10.19.2
@@ -2706,8 +2706,8 @@ packages:
       - babel-plugin-macros
     dev: false
 
-  /nodemailer@6.9.5:
-    resolution: {integrity: sha512-/dmdWo62XjumuLc5+AYQZeiRj+PRR8y8qKtFCOyuOl1k/hckZd8durUUHs/ucKx6/8kN+wFxqKJlQ/LK/qR5FA==}
+  /nodemailer@6.9.9:
+    resolution: {integrity: sha512-dexTll8zqQoVJEZPwQAKzxxtFn0qTnjdQTchoU6Re9BUUGBJiOy3YMn/0ShTW6J5M0dfQ1NeDeRTTl4oIWgQMA==}
     engines: {node: '>=6.0.0'}
     dev: false
 
