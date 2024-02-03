@@ -46,7 +46,7 @@
     "react-dom": "18.2.0",
     "react-gtm-module": "^2.0.11",
     "superjson": "^1.13.1",
-    "zod": "^3.21.4"
+    "zod": "^3.22.3"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.4",
