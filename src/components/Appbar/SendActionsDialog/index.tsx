@@ -69,7 +69,7 @@ function SimpleDialog(props: Readonly<SimpleDialogProps>) {
   };
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(`https://yume.io/${username}`);
+    navigator.clipboard.writeText(`https://milista.xyz/${username}`);
     setCopied(true);
     setCopiedTimeout();
   };
@@ -105,7 +105,7 @@ function SimpleDialog(props: Readonly<SimpleDialogProps>) {
               variant="body2"
               sx={{ p: 1, textTransform: "lowercase" }}
             >
-              yume.io/{username}
+              milista.xyz/{username}
             </Typography>
             <Typography
               sx={{

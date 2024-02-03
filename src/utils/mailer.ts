@@ -19,9 +19,9 @@ export async function sendPasswordRecoveryToken({
   });
 
   const info = await transporter.sendMail({
-    from: `Yume`, // sender address
+    from: `Milista`, // sender address
     to: email,
-    subject: "Yume password Recovery",
+    subject: "Milista password Recovery",
     html: `
         <p>Someone (hopefully you) has requested a password reset for your account.</p>
         <p>If you did not request this, you can safely ignore this email.</p>

@@ -84,7 +84,7 @@ export default function Register() {
                 component="h1"
                 sx={{ textTransform: "uppercase", fontWeight: "bold" }}
               >
-                Welcome to yume 🥳
+                Welcome to Milista 🥳
               </Typography>
               <Typography variant="body1">
                 Useful & meaningful gifts without sweat
