@@ -1,6 +1,7 @@
 import { GoogleAnalytics } from "@next/third-parties/google";
-import { env } from "~/env.mjs";
 
 export const Metrics = () => {
-  return <GoogleAnalytics gaId={env.GOOGLE_ANALYTICS_ID} />;
+  const analyticsId = process.env.GOOGLE_ANALYTICS_ID;
+
+  return analyticsId && <GoogleAnalytics gaId={analyticsId} />;
 };
