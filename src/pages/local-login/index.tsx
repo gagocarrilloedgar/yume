@@ -1,5 +1,5 @@
 import { signIn } from "next-auth/react";
-import React from "react";
+import React, { useEffect } from "react";
 
 import {
   Box,
@@ -28,7 +28,9 @@ export default function Login() {
 
   const isLocal = process.env.NODE_ENV === "development";
 
-  if (!isLocal) router.push("/login");
+  useEffect(() => {
+    if (!isLocal) router.push("/login");
+  }, [isLocal]);
 
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
