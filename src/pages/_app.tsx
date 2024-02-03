@@ -16,8 +16,6 @@ import Head from "next/head";
 import { Layout } from "~/components/Layout";
 import { theme } from "~/theme";
 import { UserProvider } from "./profile";
-import { Metrics } from "~/components/metrics";
-
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
@@ -47,7 +45,6 @@ const MyApp: AppType<{ session: Session | null }> = ({
               <Component {...pageProps} />
               <SpeedInsights />
               <Analytics />
-              <Metrics />
             </LayoutComponent>
           </UserProvider>
         </SessionProvider>

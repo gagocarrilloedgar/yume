@@ -12,6 +12,7 @@ import * as React from "react";
 import { roboto, theme } from "~/theme";
 import { createEmotionCache } from "~/utils/createEmotionCache";
 import { MyAppProps } from "./_app";
+import Script from "next/script";
 
 interface MyDocumentProps extends DocumentProps {
   emotionStyleTags: React.JSX.Element[];
@@ -25,11 +26,29 @@ export default function MyDocument({ emotionStyleTags }: MyDocumentProps) {
         <meta name="theme-color" content={theme.palette.primary.main} />
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta name="emotion-insertion-point" content="" />
+
         {emotionStyleTags}
       </Head>
       <body>
         <Main />
         <NextScript />
+        <Script
+          strategy="afterInteractive"
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`}
+        />
+        <Script
+          id="google-analytics-init"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+
+                    gtag('config', '${process.env.GOOGLE_ANALYTICS_ID}');
+                    `
+          }}
+        />
       </body>
     </Html>
   );

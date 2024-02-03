@@ -43,7 +43,7 @@
     "nodemailer": "^6.9.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-ga": "^3.3.1",
+    "react-gtm-module": "^2.0.11",
     "superjson": "^1.13.1",
     "zod": "^3.21.4"
   },
