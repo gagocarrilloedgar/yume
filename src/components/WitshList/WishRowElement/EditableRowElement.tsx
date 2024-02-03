@@ -107,6 +107,7 @@ export const EditableRowElement = ({
           />
           <EditLabel
             updateValue={updateUrl}
+            placeholder={"Add a url"}
             label={wish.url}
             onChange={onChangeUrl}
             name="url"

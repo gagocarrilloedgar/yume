@@ -47,18 +47,21 @@ export function AddNewWish({ position = 0 }: { readonly position?: number }) {
 
     const url = data.get("url") as string;
 
-    const urlRegex = new RegExp(
-      "^(https?:\\/\\/)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\\/\\w \\.-]*)*\\/?$"
-    );
+    if (url) {
+      const urlRegex = new RegExp(
+        "^(https?:\\/\\/)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\\/\\w \\.-]*)*\\/?$"
+      );
 
-    if (!urlRegex.test(url)) {
-      alert("Url is not valid");
-      return;
+      if (!urlRegex.test(url)) {
+        alert("Url is not valid");
+        return;
+      }
     }
 
     const json = Object.fromEntries(data.entries());
     const body = {
       ...json,
+      url: json.url ?? null,
       active: json.active === "on",
       available: json.available === "on",
       receiverId: user.id,
@@ -124,7 +127,6 @@ export function AddNewWish({ position = 0 }: { readonly position?: number }) {
             />
             <TextField
               fullWidth
-              required
               label="Url"
               name="url"
               id="outlined-basic"

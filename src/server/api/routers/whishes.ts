@@ -9,7 +9,7 @@ import { handleDatabaseOperation } from "~/utils/api";
 const wishSchema = z.object({
   id: z.string().cuid(),
   title: z.string().min(1).max(255),
-  url: z.string().url(),
+  url: z.string().url().optional().nullable(),
   position: z.number().int(),
   active: z.boolean(),
   available: z.boolean(),

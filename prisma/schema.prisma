@@ -79,7 +79,7 @@ model VerificationRequest {
 model Wish {
   id        String    @id @default(cuid())
   title     String
-  url       String
+  url       String?
   position  Int
   active    Boolean   @default(true)
   available Boolean  @default(true)

@@ -21,8 +21,12 @@ export const ViewableRowElement = ({
         boxShadow: `7px 7px ${wish.color} , 7px 7px 0px 2px #171d21`
       }}
     >
-      <CardActionArea href={wish.url} target="_blank">
-        <Box sx={{ p: 0.5 }} display="flex" alignItems="center">
+      <CardActionArea
+        disabled={!wish.url}
+        href={wish.url ?? ""}
+        target="_blank"
+      >
+        <Box sx={{ p: 0.5 }} minHeight={45} display="flex" alignItems="center">
           <ViewLabel label={wish.title} url={wish.url} />
           <Box flexGrow={1} />
           {/*<Checkbox

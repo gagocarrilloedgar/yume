@@ -6,10 +6,12 @@ import React from "react";
 export const EditLabel = ({
   label,
   name,
+  placeholder,
   updateValue,
   onChange
 }: {
-  label: string;
+  label?: string | null;
+  placeholder?: string;
   name: string;
   updateValue: (value?: string) => Promise<void>;
   onChange: (e: any) => void;
@@ -17,7 +19,7 @@ export const EditLabel = ({
   const [isEditing, setIsEditing] = React.useState(false);
 
   const changeEditMode = async () => {
-    if (isEditing) {
+    if (isEditing && label) {
       await updateValue(label);
     }
     setIsEditing((prev) => !prev);
@@ -43,10 +45,11 @@ export const EditLabel = ({
             // Show ellipsis for overflowing text
             textOverflow: "ellipsis",
             // Prevent text from wrapping to the next line
-            whiteSpace: "nowrap"
+            whiteSpace: "nowrap",
+            opacity: label ? 1 : 0.5
           }}
         >
-          {label}
+          {label ?? placeholder}
         </Typography>
       )}
       <IconButton onClick={changeEditMode} color="inherit" sx={{ mx: 1 }}>
