@@ -2,23 +2,23 @@ import { signIn } from "next-auth/react";
 import React from "react";
 
 import {
-    Box,
-    Button,
-    Card,
-    CardContent,
-    Container,
-    IconButton,
-    InputAdornment,
-    Link,
-    Stack,
-    TextField,
-    Typography
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Container,
+  IconButton,
+  InputAdornment,
+  Link,
+  Stack,
+  TextField,
+  Typography
 } from "@mui/material";
 
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { COLORS } from "~/theme";
 
 export default function Login() {
