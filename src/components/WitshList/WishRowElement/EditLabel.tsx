@@ -19,8 +19,8 @@ export const EditLabel = ({
   const [isEditing, setIsEditing] = React.useState(false);
 
   const changeEditMode = async () => {
-    if (isEditing && label) {
-      await updateValue(label);
+    if (isEditing) {
+      await updateValue(label ?? undefined);
     }
     setIsEditing((prev) => !prev);
   };

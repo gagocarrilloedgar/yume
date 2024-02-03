@@ -53,13 +53,13 @@ export const EditableRowElement = ({
   };
 
   const handleUpdateWish = async (key: "title" | "url", value?: string) => {
-    if (!value) return;
+    if (!value && key === "title") return;
 
     try {
       await updateWish(
         {
           id: wish.id,
-          [key]: value
+          [key]: value || null
         },
         {
           onError: (error) => {
