@@ -1,7 +1,22 @@
-import { GoogleAnalytics } from "@next/third-parties/google";
+import { useEffect } from "react";
+import ReactGA from "react-ga";
+
+export const initGA = () => {
+  ReactGA.initialize(process.env.GOOGLE_ANALYTICS_ID ?? "");
+};
+
+export const logPageView = () => {
+  ReactGA.set({ page: window.location.pathname });
+  ReactGA.pageview(window.location.pathname);
+};
 
 export const Metrics = () => {
-  const analyticsId = process.env.GOOGLE_ANALYTICS_ID;
+  useEffect(() => {
+    initGA(); // Initialize Google Analytics
+    logPageView(); // Log the initial page view
 
-  return analyticsId && <GoogleAnalytics gaId={analyticsId} />;
+    // Add additional tracking logic as needed
+  }, []);
+
+  return null;
 };
