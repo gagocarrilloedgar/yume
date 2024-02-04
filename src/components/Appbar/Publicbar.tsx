@@ -1,6 +1,7 @@
-import { AppBar, Box, Container } from "@mui/material";
+import { AppBar, Box, Button, Container } from "@mui/material";
 import SendActionsDialog from "./SendActionsDialog";
-import { BACKGROUND } from "./common";
+import { BACKGROUND, editConnectStyle } from "./common";
+import { COLORS } from "~/theme";
 
 export const Publicbar = () => {
   return (
@@ -12,6 +13,9 @@ export const Publicbar = () => {
     >
       <Container maxWidth="md">
         <Box display="flex" sx={{ px: 2, py: 1 }}>
+          <Button href="/login" {...editConnectStyle(COLORS.white)}>
+            Login
+          </Button>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: "flex" }}>
             <SendActionsDialog />

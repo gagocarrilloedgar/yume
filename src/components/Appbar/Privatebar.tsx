@@ -7,6 +7,7 @@ import SendActionsDialog from "./SendActionsDialog";
 import { BACKGROUND, editConnectStyle } from "./common";
 import { COLORS } from "~/theme";
 import { useSession } from "next-auth/react";
+import { Friends } from "./Friends/Friends";
 
 export const Privatebar = () => {
   const router = useRouter();
@@ -31,12 +32,15 @@ export const Privatebar = () => {
     >
       <Container maxWidth="md">
         <Box display="flex" sx={{ px: 2, py: 1 }}>
-          <LeftActionButton
-            isProfilePage={isProfilePage}
-            isSameUser={isSameUser}
-            isAuth={status === "authenticated"}
-            username={(username as string) ?? data?.user.username}
-          />
+          <Box display="flex" sx={{ px: 0, py: 1, gap: 2 }}>
+            <LeftActionButton
+              isProfilePage={isProfilePage}
+              isSameUser={isSameUser}
+              isAuth={status === "authenticated"}
+              username={(username as string) ?? data?.user.username}
+            />
+            <Friends />
+          </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: "flex" }}>
             {showNewWish ? (
