@@ -8,6 +8,7 @@ import { BACKGROUND, editConnectStyle } from "./common";
 import { COLORS } from "~/theme";
 import { useSession } from "next-auth/react";
 import { Friends } from "./Friends/Friends";
+import { FollowButton } from "./FollowButton";
 
 export const Privatebar = () => {
   const router = useRouter();
@@ -83,9 +84,5 @@ const LeftActionButton = ({
       </Button>
     );
 
-  return (
-    <Button href={`/${username}`} {...editConnectStyle(COLORS.white)}>
-      Connect
-    </Button>
-  );
+  return <FollowButton />;
 };

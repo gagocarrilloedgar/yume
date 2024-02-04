@@ -18,22 +18,23 @@ import { COLORS } from "~/theme";
 
 import { editConnectStyle } from "../common";
 import { CloseOutlined } from "@mui/icons-material";
+import { useSession } from "next-auth/react";
+import { useUser } from "~/pages/profile";
+import { useUserFavorites } from "../FollowButton";
 
 export const Friends = () => {
   const [open, setOpen] = useState(false);
+
   const notWideScreen = useMediaQuery("(max-width:1300px)");
   const anchor = notWideScreen ? "bottom" : "left";
 
-  const friends = [
-    {
-      username: "John Doe",
-      avatar: "https://randomuser"
-    },
-    { username: "Jane Doe", avatar: "https://randomuser" }
-  ];
+  const { data: session } = useSession();
+  const { user } = useUser();
+  const { favorites } = useUserFavorites({ session });
 
   const handleClick = () => setOpen((prev) => !prev);
 
+  console.log({ favorites });
   return (
     <>
       <Button onClick={handleClick} {...editConnectStyle(COLORS.white)}>
@@ -67,16 +68,16 @@ export const Friends = () => {
             </ListSubheader>
           }
         >
-          {friends.map((friend) => (
-            <ListItemButton key={friend.avatar}>
+          {favorites?.map(({ id, favoriteUser }) => (
+            <ListItemButton key={id}>
               <ListItemAvatar>
                 <Avatar
                   sx={{ width: 36, height: 36 }}
                   alt="Remy Sharp"
-                  src={friend.avatar}
+                  src={favoriteUser.image ?? favoriteUser.username}
                 />
               </ListItemAvatar>
-              <ListItemText primary={friend.username} />
+              <ListItemText primary={favoriteUser.username} />
             </ListItemButton>
           ))}
         </List>

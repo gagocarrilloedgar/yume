@@ -32,6 +32,15 @@ export const favoriteRouter = createTRPCRouter({
       return ctx.db.favorite.findMany({
         where: {
           userId: input.userId
+        },
+        include: {
+          favoriteUser: {
+            select: {
+              id: true,
+              username: true,
+              image: true
+            }
+          }
         }
       });
     })
