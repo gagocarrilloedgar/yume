@@ -1,17 +1,9 @@
 import { ButtonOwnProps } from "@mui/material";
+import { COLORS } from "~/theme";
 
 export const BACKGROUND = "#E8E8E8";
 
 // convert colors into an object
-export enum COLORS {
-  white = "#fff",
-  primaryGreen = "#b2e1bb",
-  greenAction = "#16be35",
-  primaryBlue = "#6c90d5",
-  secondaryViolet = "#c3acf3",
-  secondaryYellow = "#d9e952",
-  secondaryPink = "#d795be"
-}
 
 export const baseButtonStyle = {
   sx: { border: "2px solid" },

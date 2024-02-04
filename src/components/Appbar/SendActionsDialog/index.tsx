@@ -10,10 +10,11 @@ import {
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import * as React from "react";
-import { COLORS, iconButtonStyle } from "../common";
+import { iconButtonStyle } from "../common";
 
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import { useRouter } from "next/router";
+import { COLORS } from "~/theme";
 
 export interface SimpleDialogProps {
   open: boolean;
@@ -127,12 +128,7 @@ function SimpleDialog(props: Readonly<SimpleDialogProps>) {
           Create your own wish list to share.
         </Typography>
         <Stack direction="column" spacing={2} sx={{ p: 2 }}>
-          <Button
-            disableElevation
-            variant="contained"
-            fullWidth
-            href="/login"
-          >
+          <Button disableElevation variant="contained" fullWidth href="/login">
             Create an account or sign in
           </Button>
         </Stack>

@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import { Privatebar } from "./Appbar";
+import { Privatebar } from "./Privatebar";
 import { Publicbar } from "./Publicbar";
 
 export const Appbar = () => {

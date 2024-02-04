@@ -116,7 +116,7 @@ export const EditableRowElement = ({
         <Box flexGrow={1} />
         <Tooltip arrow title={wish.active ? "Hide" : "Show"}>
           <Toogle
-            disabled={isLoading}
+            disabled={isLoading || updateOnGoing}
             checked={wish.active}
             onChange={() => handleUpdateToggle(wish.id)}
           />

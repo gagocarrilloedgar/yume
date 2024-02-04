@@ -12,7 +12,6 @@ export const Publicbar = () => {
     >
       <Container maxWidth="md">
         <Box display="flex" sx={{ px: 2, py: 1 }}>
-          {/*<Button {...editConnectStyle(COLORS.white)}>Conectar</Button>*/}
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: "flex" }}>
             <SendActionsDialog />
